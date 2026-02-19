@@ -1,0 +1,9 @@
+node_modules
+.pnpm-store
+.DS_Store
+.env
+.env.*
+dist
+coverage
+apps/registry/public/r/*.json
+!apps/registry/public/r/.gitkeep

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "feature-grid",
+  "type": "registry:block",
+  "title": "Feature Grid",
+  "description": "Responsive card grid for product feature highlights.",
+  "meta": {
+    "category": "marketing",
+    "a11y": "Semantic section/article markup for screen reader navigation."
+  },
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/feature-grid.tsx",
+      "type": "registry:component",
+      "target": "components/blocks/feature-grid.tsx"
+    }
+  ]
+}

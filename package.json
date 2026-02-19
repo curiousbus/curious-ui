@@ -1,0 +1,16 @@
+{
+  "name": "frontend-template-blocks",
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@10.0.0",
+  "scripts": {
+    "dev": "pnpm --filter @ftb/registry dev",
+    "build": "pnpm run build:registry && pnpm --filter @ftb/blocks build",
+    "build:registry": "node ./scripts/build-registry.mjs",
+    "lint": "node ./scripts/lint.mjs",
+    "typecheck": "node ./scripts/typecheck.mjs",
+    "test": "node --test ./scripts/tests/**/*.test.mjs",
+    "smoke:install": "node ./scripts/smoke-install.mjs",
+    "check": "pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run smoke:install"
+  }
+}

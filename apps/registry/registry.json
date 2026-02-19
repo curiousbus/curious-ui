@@ -1,0 +1,13 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "frontend-template-blocks",
+  "homepage": "https://github.com/curiousbus/frontend-template-blocks",
+  "items": [
+    "./r/cta-banner.json",
+    "./r/feature-grid.json",
+    "./r/pricing-cards.json",
+    "./r/simple-hero.json",
+    "./r/stats-strip.json",
+    "./r/testimonial-wall.json"
+  ]
+}

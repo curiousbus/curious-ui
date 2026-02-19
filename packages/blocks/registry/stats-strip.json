@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "stats-strip",
+  "type": "registry:block",
+  "title": "Stats Strip",
+  "description": "Compact KPI strip for landing pages and dashboards.",
+  "meta": {
+    "category": "analytics",
+    "a11y": "Structured data pairs through definition list semantics."
+  },
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/stats-strip.tsx",
+      "type": "registry:component",
+      "target": "components/blocks/stats-strip.tsx"
+    }
+  ]
+}

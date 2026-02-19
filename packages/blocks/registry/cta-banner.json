@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "cta-banner",
+  "type": "registry:block",
+  "title": "CTA Banner",
+  "description": "Full-width call-to-action banner with configurable message and action.",
+  "meta": {
+    "category": "conversion",
+    "a11y": "Button action remains keyboard operable with clear text contrast."
+  },
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/cta-banner.tsx",
+      "type": "registry:component",
+      "target": "components/blocks/cta-banner.tsx"
+    }
+  ]
+}

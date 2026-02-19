@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "testimonial-wall",
+  "type": "registry:block",
+  "title": "Testimonial Wall",
+  "description": "Two-column testimonial layout with quote attribution.",
+  "meta": {
+    "category": "social-proof",
+    "a11y": "Uses figure/blockquote/figcaption semantics for quoted content."
+  },
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/testimonial-wall.tsx",
+      "type": "registry:component",
+      "target": "components/blocks/testimonial-wall.tsx"
+    }
+  ]
+}

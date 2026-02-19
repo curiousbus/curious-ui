@@ -1,0 +1,9 @@
+{
+  "name": "@ftb/registry",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "node -e \"console.log('Registry app scaffold ready. Use static hosting for apps/registry/public.')\"",
+    "build": "node -e \"console.log('Use root script: pnpm run build:registry')\""
+  }
+}
