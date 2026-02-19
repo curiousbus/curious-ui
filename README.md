@@ -26,6 +26,9 @@ pnpm run storybook
 pnpm run build:storybook
 ```
 
+Online Storybook (deployed by GitHub Pages):  
+`https://curiousbus.github.io/frontend-template-blocks/storybook/`
+
 ## Examples App
 ```bash
 pnpm run dev:examples
@@ -58,6 +61,7 @@ After changesets are merged into `main`, GitHub Actions will:
 - Target URL (GitHub Pages): `https://curiousbus.github.io/frontend-template-blocks/`
 - Registry entrypoint: `https://curiousbus.github.io/frontend-template-blocks/registry.json`
 - Example item URL: `https://curiousbus.github.io/frontend-template-blocks/r/simple-hero.json`
+- Storybook URL: `https://curiousbus.github.io/frontend-template-blocks/storybook/`
 - One-time setup: enable GitHub Pages in repo settings (`Settings -> Pages`) and select GitHub Actions as the source.
 
 ## Use This Registry (Consumer Guide)

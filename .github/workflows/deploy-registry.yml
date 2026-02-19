@@ -32,6 +32,8 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build:registry
+      - run: pnpm run build:storybook
+      - run: rm -rf apps/registry/public/storybook && cp -R storybook-static apps/registry/public/storybook
       - run: touch apps/registry/public/.nojekyll
 
       - id: pages
