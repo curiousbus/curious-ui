@@ -36,6 +36,7 @@ After changesets are merged into `main`, GitHub Actions will:
 - Target URL (GitHub Pages): `https://curiousbus.github.io/frontend-template-blocks/`
 - Registry entrypoint: `https://curiousbus.github.io/frontend-template-blocks/registry.json`
 - Example item URL: `https://curiousbus.github.io/frontend-template-blocks/r/simple-hero.json`
+- One-time setup: enable GitHub Pages in repo settings (`Settings -> Pages`) and select GitHub Actions as the source.
 
 ## Install From Registry (after deployment)
 ```bash
