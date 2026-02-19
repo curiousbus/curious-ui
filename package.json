@@ -7,13 +7,19 @@
     "dev": "pnpm --filter @ftb/registry dev",
     "build": "pnpm run build:registry && pnpm --filter @ftb/blocks build",
     "build:registry": "node ./scripts/build-registry.mjs",
+    "changeset": "changeset",
+    "changeset:status": "changeset status --verbose",
+    "changeset:version": "changeset version",
+    "changeset:publish": "changeset publish",
     "lint": "node ./scripts/lint.mjs",
     "typecheck": "node ./scripts/typecheck.mjs",
     "test": "node --test ./scripts/tests/*.test.mjs",
     "smoke:install": "node ./scripts/smoke-install.mjs",
-    "check": "pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run build:registry && pnpm run smoke:install"
+    "check": "pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run build:registry && pnpm run smoke:install",
+    "release:publish": "node ./scripts/release-publish.mjs"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.29.8",
     "shadcn": "^3.5.0"
   }
 }
