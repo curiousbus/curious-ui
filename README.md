@@ -20,6 +20,23 @@ pnpm run build:registry
 pnpm run check
 ```
 
+## Release Flow
+```bash
+pnpm changeset
+pnpm run changeset:status
+```
+
+After changesets are merged into `main`, GitHub Actions will:
+- open a version PR via `changesets/action`
+- run publish flow via `pnpm run release:publish`
+- skip npm publish automatically when `NPM_TOKEN` is not configured
+
+## Registry Hosting
+- Deployment workflow: `.github/workflows/deploy-registry.yml`
+- Target URL (GitHub Pages): `https://curiousbus.github.io/frontend-template-blocks/`
+- Registry entrypoint: `https://curiousbus.github.io/frontend-template-blocks/registry.json`
+- Example item URL: `https://curiousbus.github.io/frontend-template-blocks/r/simple-hero.json`
+
 ## Install From Registry (after deployment)
 ```bash
 shadcn add <registry-url>/r/simple-hero.json
@@ -30,4 +47,4 @@ Phase 1 scaffold from issue #1:
 - workspace + registry generation pipeline
 - 6 starter blocks
 - lint/typecheck/test/smoke script baseline
-- changesets config
+- changesets + release/deploy workflows
