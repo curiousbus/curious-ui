@@ -9,7 +9,7 @@
     "build:registry": "node ./scripts/build-registry.mjs",
     "lint": "node ./scripts/lint.mjs",
     "typecheck": "node ./scripts/typecheck.mjs",
-    "test": "node --test ./scripts/tests/**/*.test.mjs",
+    "test": "node --test ./scripts/tests/*.test.mjs",
     "smoke:install": "node ./scripts/smoke-install.mjs",
     "check": "pnpm run lint && pnpm run typecheck && pnpm run test && pnpm run build:registry && pnpm run smoke:install"
   },
