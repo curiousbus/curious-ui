@@ -5,7 +5,15 @@
   "packageManager": "pnpm@10.0.0",
   "scripts": {
     "dev": "pnpm --filter @ftb/registry dev",
+    "dev:examples": "pnpm --filter @ftb/examples dev",
     "build": "pnpm run build:registry && pnpm --filter @ftb/blocks build",
+    "build:examples": "pnpm --filter @ftb/examples build",
+    "preview:examples": "pnpm --filter @ftb/examples preview",
+    "storybook": "storybook dev -p 6006",
+    "build:storybook": "storybook build",
+    "storybook:serve-static": "http-server storybook-static -p 6006 -s",
+    "visual:test": "playwright test -c playwright.visual.config.mjs",
+    "visual:update": "playwright test -c playwright.visual.config.mjs --update-snapshots",
     "build:registry": "node ./scripts/build-registry.mjs",
     "changeset": "changeset",
     "changeset:status": "changeset status --verbose",
@@ -20,6 +28,19 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.8",
-    "shadcn": "^3.5.0"
+    "@playwright/test": "^1.58.2",
+    "@storybook/addon-a11y": "^10.2.10",
+    "@storybook/addon-docs": "10.2.10",
+    "@storybook/react-vite": "^10.2.10",
+    "@vitejs/plugin-react": "^5.1.4",
+    "autoprefixer": "^10.4.24",
+    "http-server": "^14.1.1",
+    "postcss": "^8.5.6",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "shadcn": "^3.5.0",
+    "storybook": "^10.2.10",
+    "tailwindcss": "^3.4.17",
+    "vite": "^6.4.1"
   }
 }
