@@ -8,3 +8,7 @@ coverage
 apps/registry/public/r/*.json
 !apps/registry/public/r/.gitkeep
 apps/registry/public/registry.json
+apps/examples/dist
+storybook-static
+playwright-report
+test-results

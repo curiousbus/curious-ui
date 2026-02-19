@@ -20,6 +20,28 @@ pnpm run build:registry
 pnpm run check
 ```
 
+## Storybook
+```bash
+pnpm run storybook
+pnpm run build:storybook
+```
+
+## Examples App
+```bash
+pnpm run dev:examples
+pnpm run build:examples
+pnpm run preview:examples
+```
+
+## Visual Regression
+```bash
+pnpm exec playwright install chromium
+pnpm run visual:update
+pnpm run visual:test
+```
+
+GitHub workflow: `.github/workflows/visual-regression.yml`
+
 ## Release Flow
 ```bash
 pnpm changeset
@@ -44,8 +66,9 @@ shadcn add <registry-url>/r/simple-hero.json
 ```
 
 ## Current Phase
-Phase 1 scaffold from issue #1:
+Phase 1 scaffold from issue #1 + issue #6:
 - workspace + registry generation pipeline
 - 6 starter blocks
 - lint/typecheck/test/smoke script baseline
 - changesets + release/deploy workflows
+- Storybook + examples app + Playwright visual regression
