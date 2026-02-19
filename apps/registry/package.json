@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "node -e \"console.log('Registry app scaffold ready. Use static hosting for apps/registry/public.')\"",
-    "build": "node -e \"console.log('Use root script: pnpm run build:registry')\""
+    "dev": "node -e \"console.log('Registry artifacts are emitted to apps/registry/public via pnpm run build:registry')\"",
+    "build": "node -e \"console.log('Run root build:registry script to generate shadcn registry artifacts')\""
   }
 }

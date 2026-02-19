@@ -11,6 +11,7 @@ Reusable frontend blocks/templates powered by `shadcn` registry + Base UI compos
 - `apps/registry`: hosts generated registry JSON output (`public/r`).
 - `packages/blocks`: source blocks and registry item definitions.
 - `scripts`: local quality checks and registry build scripts.
+- `registry.json`: root shadcn registry manifest generated from `packages/blocks/registry`.
 
 ## Quick Start
 ```bash
