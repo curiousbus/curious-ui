@@ -7,3 +7,4 @@ dist
 coverage
 apps/registry/public/r/*.json
 !apps/registry/public/r/.gitkeep
+apps/registry/public/registry.json

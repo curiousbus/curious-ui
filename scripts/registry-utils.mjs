@@ -10,6 +10,7 @@ export const ROOT_DIR = path.resolve(__dirname, "..");
 export const BLOCKS_DIR = path.join(ROOT_DIR, "packages", "blocks");
 export const ITEMS_DIR = path.join(BLOCKS_DIR, "registry");
 export const SOURCE_DIR = path.join(BLOCKS_DIR, "src");
+export const REGISTRY_ROOT_FILE = path.join(ROOT_DIR, "registry.json");
 export const REGISTRY_APP_DIR = path.join(ROOT_DIR, "apps", "registry");
 export const REGISTRY_OUTPUT_DIR = path.join(REGISTRY_APP_DIR, "public", "r");
 
@@ -41,8 +42,8 @@ export function validateRegistryItemShape(item, filename) {
   }
 
   for (const file of item.files) {
-    if (!file.path || !file.type || !file.target) {
-      throw new Error(`${filename}: every file entry must include path/type/target`);
+    if (!file.path || !file.type) {
+      throw new Error(`${filename}: every file entry must include path/type`);
     }
   }
 }

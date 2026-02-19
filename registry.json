@@ -1,0 +1,127 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "frontend-template-blocks",
+  "homepage": "https://github.com/curiousbus/frontend-template-blocks",
+  "items": [
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "cta-banner",
+      "type": "registry:block",
+      "title": "CTA Banner",
+      "description": "Full-width call-to-action banner with configurable message and action.",
+      "meta": {
+        "category": "conversion",
+        "a11y": "Button action remains keyboard operable with clear text contrast."
+      },
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "packages/blocks/src/cta-banner.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/cta-banner.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "feature-grid",
+      "type": "registry:block",
+      "title": "Feature Grid",
+      "description": "Responsive card grid for product feature highlights.",
+      "meta": {
+        "category": "marketing",
+        "a11y": "Semantic section/article markup for screen reader navigation."
+      },
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "packages/blocks/src/feature-grid.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/feature-grid.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "pricing-cards",
+      "type": "registry:block",
+      "title": "Pricing Cards",
+      "description": "Three-column pricing block with highlighted plan support.",
+      "meta": {
+        "category": "commerce",
+        "a11y": "List semantics for included features and clear heading hierarchy."
+      },
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "packages/blocks/src/pricing-cards.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/pricing-cards.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "simple-hero",
+      "type": "registry:block",
+      "title": "Simple Hero",
+      "description": "Centered hero section with primary and secondary actions.",
+      "meta": {
+        "category": "marketing",
+        "a11y": "Keyboard-navigable button actions with semantic heading structure."
+      },
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "packages/blocks/src/simple-hero.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/simple-hero.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "stats-strip",
+      "type": "registry:block",
+      "title": "Stats Strip",
+      "description": "Compact KPI strip for landing pages and dashboards.",
+      "meta": {
+        "category": "analytics",
+        "a11y": "Structured data pairs through definition list semantics."
+      },
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "packages/blocks/src/stats-strip.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/stats-strip.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "testimonial-wall",
+      "type": "registry:block",
+      "title": "Testimonial Wall",
+      "description": "Two-column testimonial layout with quote attribution.",
+      "meta": {
+        "category": "social-proof",
+        "a11y": "Uses figure/blockquote/figcaption semantics for quoted content."
+      },
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "packages/blocks/src/testimonial-wall.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/testimonial-wall.tsx"
+        }
+      ]
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 import path from "node:path";
 import { existsSync } from "node:fs";
 import {
-  REGISTRY_APP_DIR,
+  REGISTRY_ROOT_FILE,
   ROOT_DIR,
   loadRegistryItems,
   validateRegistryItemShape,
@@ -12,7 +12,7 @@ async function lint() {
   const requiredFiles = [
     path.join(ROOT_DIR, "pnpm-workspace.yaml"),
     path.join(ROOT_DIR, "package.json"),
-    path.join(REGISTRY_APP_DIR, "registry.json")
+    REGISTRY_ROOT_FILE
   ];
 
   for (const file of requiredFiles) {
