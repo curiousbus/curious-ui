@@ -60,10 +60,25 @@ After changesets are merged into `main`, GitHub Actions will:
 - Example item URL: `https://curiousbus.github.io/frontend-template-blocks/r/simple-hero.json`
 - One-time setup: enable GitHub Pages in repo settings (`Settings -> Pages`) and select GitHub Actions as the source.
 
-## Install From Registry (after deployment)
+## Use This Registry (Consumer Guide)
+1. Initialize shadcn in your project (if you have not done it yet).
+2. Install a block by item URL:
+
 ```bash
-shadcn add <registry-url>/r/simple-hero.json
+shadcn add https://curiousbus.github.io/frontend-template-blocks/r/simple-hero.json
 ```
+
+3. Swap the item filename to install other blocks:
+
+```bash
+shadcn add https://curiousbus.github.io/frontend-template-blocks/r/feature-grid.json
+shadcn add https://curiousbus.github.io/frontend-template-blocks/r/pricing-cards.json
+shadcn add https://curiousbus.github.io/frontend-template-blocks/r/testimonial-wall.json
+shadcn add https://curiousbus.github.io/frontend-template-blocks/r/stats-strip.json
+shadcn add https://curiousbus.github.io/frontend-template-blocks/r/cta-banner.json
+```
+
+4. Browse available links from the homepage: `https://curiousbus.github.io/frontend-template-blocks/`
 
 ## Current Phase
 Phase 1 scaffold from issue #1 + issue #6:
