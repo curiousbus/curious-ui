@@ -35,6 +35,8 @@ jobs:
       - run: touch apps/registry/public/.nojekyll
 
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: apps/registry/public
