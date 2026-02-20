@@ -8,7 +8,7 @@
     "category": "conversion",
     "a11y": "Button action remains keyboard operable with clear text contrast."
   },
-  "dependencies": [],
+  "dependencies": ["motion"],
   "registryDependencies": [],
   "files": [
     {

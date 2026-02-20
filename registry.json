@@ -13,7 +13,7 @@
         "category": "conversion",
         "a11y": "Button action remains keyboard operable with clear text contrast."
       },
-      "dependencies": [],
+      "dependencies": ["motion"],
       "registryDependencies": [],
       "files": [
         {
@@ -33,7 +33,7 @@
         "category": "marketing",
         "a11y": "Semantic heading and keyboard-accessible action buttons."
       },
-      "dependencies": [],
+      "dependencies": ["motion"],
       "registryDependencies": [],
       "files": [
         {
