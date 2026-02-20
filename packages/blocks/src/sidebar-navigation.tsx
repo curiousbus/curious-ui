@@ -474,7 +474,7 @@ export function SidebarNavPanel({
                           <span className="relative z-10 flex min-w-0 flex-1 items-center justify-between gap-2">
                             <span className="truncate">{item.label}</span>
                             {item.badge ? (
-                              <span className="pointer-events-none absolute right-1 top-1.5 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums text-sidebar-foreground/80">
+                              <span className="inline-flex h-5 min-w-5 shrink-0 items-center justify-center rounded-md border border-sidebar-border/70 bg-sidebar-accent/60 px-1 text-[11px] font-medium leading-none tabular-nums text-sidebar-foreground/80">
                                 {item.badge}
                               </span>
                             ) : null}
@@ -539,7 +539,7 @@ export function SidebarNavPanel({
                                       {child.label}
                                     </span>
                                     {child.badge ? (
-                                      <span className="relative z-10 ml-auto rounded-md px-1 text-xs tabular-nums text-sidebar-foreground/80">
+                                      <span className="relative z-10 ml-auto inline-flex h-5 min-w-5 shrink-0 items-center justify-center rounded-md border border-sidebar-border/70 bg-sidebar-accent/60 px-1 text-[11px] font-medium leading-none tabular-nums text-sidebar-foreground/80">
                                         {child.badge}
                                       </span>
                                     ) : null}
