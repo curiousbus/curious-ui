@@ -42,6 +42,26 @@
           "target": "components/blocks/hero-split.tsx"
         }
       ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "sidebar-navigation",
+      "type": "registry:block",
+      "title": "Sidebar Navigation",
+      "description": "Composable sidebar with groups, nested menus, icon collapse mode, and motion-based active highlight.",
+      "meta": {
+        "category": "navigation",
+        "a11y": "Uses explicit button semantics, reduced-motion support, and keyboard-focusable controls."
+      },
+      "dependencies": ["motion"],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "packages/blocks/src/sidebar-navigation.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/sidebar-navigation.tsx"
+        }
+      ]
     }
   ]
 }
