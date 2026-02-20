@@ -60,7 +60,7 @@ After changesets are merged into `main`, GitHub Actions will:
 - Deployment workflow: `.github/workflows/deploy-registry.yml`
 - Target URL (GitHub Pages): `https://curiousbus.github.io/frontend-template-blocks/`
 - Registry entrypoint: `https://curiousbus.github.io/frontend-template-blocks/registry.json`
-- Example item URL: `https://curiousbus.github.io/frontend-template-blocks/r/simple-hero.json`
+- Example item URL: `https://curiousbus.github.io/frontend-template-blocks/r/cta-banner.json`
 - Storybook URL (root): `https://curiousbus.github.io/frontend-template-blocks/`
 - One-time setup: enable GitHub Pages in repo settings (`Settings -> Pages`) and select GitHub Actions as the source.
 
@@ -69,25 +69,15 @@ After changesets are merged into `main`, GitHub Actions will:
 2. Install a block by item URL:
 
 ```bash
-shadcn add https://curiousbus.github.io/frontend-template-blocks/r/simple-hero.json
-```
-
-3. Swap the item filename to install other blocks:
-
-```bash
-shadcn add https://curiousbus.github.io/frontend-template-blocks/r/feature-grid.json
-shadcn add https://curiousbus.github.io/frontend-template-blocks/r/pricing-cards.json
-shadcn add https://curiousbus.github.io/frontend-template-blocks/r/testimonial-wall.json
-shadcn add https://curiousbus.github.io/frontend-template-blocks/r/stats-strip.json
 shadcn add https://curiousbus.github.io/frontend-template-blocks/r/cta-banner.json
 ```
 
-4. Browse available item paths from: `https://curiousbus.github.io/frontend-template-blocks/registry.json`
+3. Browse available item paths from: `https://curiousbus.github.io/frontend-template-blocks/registry.json`
 
 ## Current Phase
 Phase 1 scaffold from issue #1 + issue #6:
 - workspace + registry generation pipeline
-- 6 starter blocks
+- baseline active block: `cta-banner` (starter placeholders removed)
 - lint/typecheck/test/smoke script baseline
 - changesets + release/deploy workflows
 - Storybook + examples app + Playwright visual regression

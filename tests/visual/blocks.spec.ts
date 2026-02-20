@@ -1,13 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-const STORIES = [
-  { id: "blocks-simple-hero--default", name: "simple-hero" },
-  { id: "blocks-feature-grid--default", name: "feature-grid" },
-  { id: "blocks-pricing-cards--default", name: "pricing-cards" },
-  { id: "blocks-testimonial-wall--default", name: "testimonial-wall" },
-  { id: "blocks-stats-strip--default", name: "stats-strip" },
-  { id: "blocks-cta-banner--default", name: "cta-banner" }
-];
+const STORIES = [{ id: "blocks-cta-banner--default", name: "cta-banner" }];
 
 test.describe("blocks visual regression", () => {
   for (const story of STORIES) {

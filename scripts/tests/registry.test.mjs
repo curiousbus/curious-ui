@@ -2,9 +2,9 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { loadRegistryItems } from "../registry-utils.mjs";
 
-test("phase-1 has at least six registry items", async () => {
+test("registry has at least one item", async () => {
   const items = await loadRegistryItems();
-  assert.ok(items.length >= 6);
+  assert.ok(items.length >= 1);
 });
 
 test("registry item names are unique", async () => {
