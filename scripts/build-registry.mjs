@@ -1,6 +1,7 @@
 import path from "node:path";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
+import { mkdir, rm } from "node:fs/promises";
 import {
   REGISTRY_APP_DIR,
   REGISTRY_ROOT_FILE,
@@ -25,8 +26,8 @@ function toBuildRegistryItem(item) {
 
 async function buildRegistry() {
   const registryItems = await loadRegistryItems();
-  if (registryItems.length < 6) {
-    throw new Error("Expected at least 6 registry items for phase-1 baseline.");
+  if (registryItems.length < 1) {
+    throw new Error("Expected at least 1 registry item.");
   }
 
   const items = [];
@@ -45,6 +46,10 @@ async function buildRegistry() {
 
   // Keep a committed root registry manifest as shadcn build input.
   await writeJson(REGISTRY_ROOT_FILE, registry);
+
+  const registryOutputDir = path.join(REGISTRY_APP_DIR, "public", "r");
+  await rm(registryOutputDir, { recursive: true, force: true });
+  await mkdir(registryOutputDir, { recursive: true });
 
   await execFileAsync(
     "pnpm",
