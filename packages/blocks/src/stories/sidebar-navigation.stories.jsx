@@ -1,13 +1,13 @@
+/* biome-ignore lint/correctness/noUnusedImports: Storybook build requires React in scope for this story module. */
+import * as React from "react";
 import {
-  CtaBanner,
-  HeroSplit,
   SidebarNavCollapseTrigger,
   SidebarNavPanel,
   SidebarNavProvider,
   SidebarNavVisibilityTrigger,
-} from "@ftb/blocks";
+} from "../sidebar-navigation";
 
-const sidebarGroups = [
+const groups = [
   {
     id: "workspace",
     label: "Workspace",
@@ -53,58 +53,42 @@ const sidebarGroups = [
   },
 ];
 
-export function App() {
-  return (
-    <main className="mx-auto min-h-screen w-full max-w-6xl space-y-8 p-8">
-      <div className="space-y-3">
-        <h1 className="text-4xl font-semibold tracking-tight">Component Preview</h1>
-        <p className="text-muted-foreground">
-          Production blocks currently available in this registry.
-        </p>
-      </div>
+export default {
+  title: "Blocks/Sidebar Navigation",
+  component: SidebarNavPanel,
+  tags: ["autodocs"],
+};
 
+export const Default = {
+  render: () => {
+    return (
       <SidebarNavProvider defaultOpen={true} defaultCollapsed={false}>
         <div className="flex min-h-[620px] overflow-hidden rounded-2xl border bg-background">
           <SidebarNavPanel
-            groups={sidebarGroups}
+            groups={groups}
             defaultActiveItemId="projects-active"
             title="Acme Console"
             subtitle="Main Navigation"
           />
 
-          <section className="flex flex-1 flex-col">
+          <main className="flex flex-1 flex-col">
             <div className="flex flex-wrap items-center gap-2 border-b px-4 py-3">
               <SidebarNavVisibilityTrigger />
               <SidebarNavCollapseTrigger />
             </div>
             <div className="space-y-3 p-6">
-              <h2 className="text-2xl font-semibold tracking-tight">Sidebar Navigation Block</h2>
+              <h2 className="text-2xl font-semibold tracking-tight">Composable Sidebar Block</h2>
               <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-                Supports grouped menu, nested submenu, icon-only collapsed mode, offcanvas
-                visibility, and motion-powered active highlight transition.
+                This block supports grouped navigation, nested submenus, icon-only collapse mode,
+                offcanvas visibility, and motion layout highlight transitions.
               </p>
             </div>
-          </section>
+          </main>
         </div>
       </SidebarNavProvider>
-
-      <HeroSplit
-        title="Build composable pages faster with real production blocks"
-        description="Start from high-quality defaults, then adapt content, styling, and behavior directly in your product codebase."
-        primaryActionLabel="Install Hero Split"
-        secondaryActionLabel="Read Usage"
-      />
-
-      <div className="max-w-4xl">
-        <CtaBanner
-          title="Build the real component library"
-          description="Use this CTA block as a conversion section under your hero or feature content."
-          actionLabel="Start Building"
-        />
-      </div>
-    </main>
-  );
-}
+    );
+  },
+};
 
 function CompassIcon() {
   return (

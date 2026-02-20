@@ -105,6 +105,7 @@ Commit examples:
 ```bash
 shadcn add https://curiousbus.github.io/frontend-template-blocks/r/cta-banner.json
 shadcn add https://curiousbus.github.io/frontend-template-blocks/r/hero-split.json
+shadcn add https://curiousbus.github.io/frontend-template-blocks/r/sidebar-navigation.json
 ```
 
 3. Discover all items:

@@ -3,6 +3,7 @@ import { expect, test } from "@playwright/test";
 const STORIES = [
   { id: "blocks-cta-banner--default", name: "cta-banner" },
   { id: "blocks-hero-split--default", name: "hero-split" },
+  { id: "blocks-sidebar-navigation--default", name: "sidebar-navigation" },
 ];
 
 test.describe("blocks visual regression", () => {
