@@ -413,12 +413,7 @@ export function SidebarNavPanel({
                 opacity: 1,
               }}
               transition={shouldReduceMotion ? { duration: 0 } : INDICATOR_TRANSITION}
-            >
-              <span
-                aria-hidden="true"
-                className="absolute left-1 top-1 bottom-1 w-0.5 rounded-full bg-sidebar-primary/80"
-              />
-            </motion.span>
+            />
           ) : null}
           {groups.map((group) => (
             <section key={group.id} className="relative flex w-full min-w-0 flex-col p-2">
