@@ -23,9 +23,9 @@ const groups = [
         icon: <FolderIcon />,
         badge: "12",
         children: [
-          { id: "projects-active", label: "Active" },
-          { id: "projects-archived", label: "Archived" },
-          { id: "projects-favorites", label: "Favorites", badge: "3" },
+          { id: "projects-active", label: "Active", icon: <PulseIcon /> },
+          { id: "projects-archived", label: "Archived", icon: <ArchiveIcon /> },
+          { id: "projects-favorites", label: "Favorites", badge: "3", icon: <MiniStarIcon /> },
         ],
       },
       {
@@ -63,7 +63,7 @@ export const Default = {
   render: () => {
     return (
       <SidebarNavProvider defaultOpen={true} defaultCollapsed={false}>
-        <div className="flex min-h-[620px] overflow-hidden rounded-2xl border bg-background">
+        <div className="flex min-h-[620px] overflow-hidden rounded-2xl border bg-background shadow-sm">
           <SidebarNavPanel
             groups={groups}
             defaultActiveItemId="projects-active"
@@ -71,16 +71,16 @@ export const Default = {
             subtitle="Main Navigation"
           />
 
-          <main className="flex flex-1 flex-col">
-            <div className="flex flex-wrap items-center gap-2 border-b px-4 py-3">
+          <main className="flex flex-1 flex-col bg-[linear-gradient(180deg,hsl(var(--background)),hsl(var(--muted)/0.35))]">
+            <div className="flex flex-wrap items-center gap-2 border-b border-border/70 px-4 py-3">
               <SidebarNavVisibilityTrigger />
               <SidebarNavCollapseTrigger />
             </div>
             <div className="space-y-3 p-6">
-              <h2 className="text-2xl font-semibold tracking-tight">Composable Sidebar Block</h2>
+              <h2 className="text-2xl font-semibold tracking-tight">Refined Sidebar Composition</h2>
               <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-                This block supports grouped navigation, nested submenus, icon-only collapse mode,
-                offcanvas visibility, and motion layout highlight transitions.
+                A richer visual hierarchy with grouped navigation, nested submenus, icon-first
+                wayfinding, icon-only collapse mode, and a layout-animated active indicator.
               </p>
             </div>
           </main>
@@ -122,6 +122,43 @@ function ChartIcon() {
       <path d="M12 16V8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
       <path d="M18 16V5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
       <path d="M4 19H20" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function PulseIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
+      <path
+        d="M4 12H8L10.2 8L13.8 16L16 12H20"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ArchiveIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
+      <rect x="4" y="6" width="16" height="4" rx="1" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M6 10V18H18V10" stroke="currentColor" strokeWidth="1.6" />
+      <path d="M10 13H14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function MiniStarIcon() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className="h-3.5 w-3.5" aria-hidden="true">
+      <path
+        d="M12 5.5L13.9 9.4L18.2 10L15.1 13L15.8 17.3L12 15.3L8.2 17.3L8.9 13L5.8 10L10.1 9.4L12 5.5Z"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
