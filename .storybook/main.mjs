@@ -4,8 +4,8 @@ const config = {
   addons: ["@storybook/addon-docs", "@storybook/addon-a11y"],
   framework: {
     name: "@storybook/react-vite",
-    options: {}
-  }
+    options: {},
+  },
 };
 
 export default config;

@@ -4,6 +4,7 @@
   "private": true,
   "packageManager": "pnpm@10.0.0",
   "scripts": {
+    "prepare": "husky",
     "dev": "pnpm --filter @ftb/registry dev",
     "dev:examples": "pnpm --filter @ftb/examples dev",
     "build": "pnpm run build:registry && pnpm --filter @ftb/blocks build",
@@ -19,7 +20,12 @@
     "changeset:status": "changeset status --verbose",
     "changeset:version": "changeset version",
     "changeset:publish": "changeset publish",
-    "lint": "node ./scripts/lint.mjs",
+    "lint": "pnpm run lint:biome && pnpm run lint:registry",
+    "lint:biome": "biome check .",
+    "lint:registry": "node ./scripts/lint.mjs",
+    "format": "biome check --write .",
+    "format:check": "biome check .",
+    "commitlint": "commitlint --edit",
     "typecheck": "node ./scripts/typecheck.mjs",
     "test": "node --test ./scripts/tests/*.test.mjs",
     "smoke:install": "node ./scripts/smoke-install.mjs",
@@ -27,7 +33,10 @@
     "release:publish": "node ./scripts/release-publish.mjs"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.2.6",
     "@changesets/cli": "^2.29.8",
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
     "@playwright/test": "^1.58.2",
     "@storybook/addon-a11y": "^10.2.10",
     "@storybook/addon-docs": "10.2.10",
@@ -35,6 +44,8 @@
     "@vitejs/plugin-react": "^5.1.4",
     "autoprefixer": "^10.4.24",
     "http-server": "^14.1.1",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
     "postcss": "^8.5.6",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
@@ -42,5 +53,10 @@
     "storybook": "^10.2.10",
     "tailwindcss": "^3.4.17",
     "vite": "^6.4.1"
+  },
+  "lint-staged": {
+    "*.{js,jsx,mjs,cjs,ts,tsx,json,jsonc,css}": [
+      "biome check --write --no-errors-on-unmatched"
+    ]
   }
 }

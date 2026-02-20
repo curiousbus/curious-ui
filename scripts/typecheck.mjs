@@ -13,7 +13,9 @@ async function typecheck() {
     const componentContents = await readFile(componentPath, "utf8");
 
     if (!componentContents.includes("export function")) {
-      throw new Error(`Expected exported function component in ${path.relative(ROOT_DIR, componentPath)}`);
+      throw new Error(
+        `Expected exported function component in ${path.relative(ROOT_DIR, componentPath)}`,
+      );
     }
 
     const exportNeedle = `./${file.replace(/\.tsx$/, "")}`;

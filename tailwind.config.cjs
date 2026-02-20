@@ -4,7 +4,7 @@ module.exports = {
     "./apps/examples/index.html",
     "./apps/examples/src/**/*.{js,jsx,ts,tsx}",
     "./packages/blocks/src/**/*.{js,jsx,ts,tsx}",
-    "./.storybook/**/*.{js,jsx,mjs,ts,tsx}"
+    "./.storybook/**/*.{js,jsx,mjs,ts,tsx}",
   ],
   theme: {
     extend: {
@@ -27,14 +27,14 @@ module.exports = {
         destructive: "hsl(var(--destructive) / <alpha-value>)",
         "destructive-foreground": "hsl(var(--destructive-foreground) / <alpha-value>)",
         primary: "hsl(var(--primary) / <alpha-value>)",
-        "primary-foreground": "hsl(var(--primary-foreground) / <alpha-value>)"
+        "primary-foreground": "hsl(var(--primary-foreground) / <alpha-value>)",
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)"
-      }
-    }
+        sm: "calc(var(--radius) - 4px)",
+      },
+    },
   },
-  plugins: []
+  plugins: [],
 };

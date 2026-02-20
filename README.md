@@ -7,78 +7,116 @@ Reusable frontend blocks/templates powered by `shadcn` registry + Base UI compos
 - Keep behavior and accessibility composable with Base UI primitives.
 - Keep styling tokenized and portable.
 
-## Monorepo Structure
-- `apps/registry`: hosts generated registry JSON output (`public/r`).
-- `packages/blocks`: source blocks and registry item definitions.
-- `scripts`: local quality checks and registry build scripts.
-- `registry.json`: root shadcn registry manifest generated from `packages/blocks/registry`.
+## Requirements
+- Node.js `>=20`
+- `pnpm@10`
+- Git
+- Optional: GitHub CLI (`gh`) for issue/PR operations
 
-## Quick Start
+## Project Structure
+- `apps/registry`: static hosting output for registry JSON (`public/r`) and pages deployment artifacts.
+- `apps/examples`: local Vite app for block preview and manual QA.
+- `packages/blocks`: block source code + registry item manifests.
+- `scripts`: quality gates, registry build, smoke install, release helpers.
+- `registry.json`: generated root shadcn registry manifest.
+
+## First-Time Setup
 ```bash
 pnpm install
 pnpm run build:registry
 pnpm run check
 ```
 
-## Storybook
+Notes:
+- `pnpm install` runs `prepare` and enables Husky hooks automatically.
+- If hooks are missing locally, run `pnpm run prepare`.
+
+## Local Development
 ```bash
+pnpm run dev:examples
 pnpm run storybook
+```
+
+Build commands:
+```bash
+pnpm run build:registry
+pnpm run build:examples
 pnpm run build:storybook
 ```
 
-Online Storybook (deployed by GitHub Pages):  
-`https://curiousbus.github.io/frontend-template-blocks/`
-
-## Examples App
+## Code Quality (Biome + Custom Checks)
 ```bash
-pnpm run dev:examples
-pnpm run build:examples
-pnpm run preview:examples
+pnpm run format        # biome check --write .
+pnpm run lint          # biome + registry integrity checks
+pnpm run typecheck
+pnpm run test
+pnpm run check         # repo standard quality gate
 ```
 
-## Visual Regression
+Visual regression:
 ```bash
 pnpm exec playwright install chromium
 pnpm run visual:update
 pnpm run visual:test
 ```
 
-GitHub workflow: `.github/workflows/visual-regression.yml`
+## Git Hooks and Commit Rules
+This repository uses:
+- `husky` for Git hooks
+- `lint-staged` for staged-file checks
+- `biome` for unified lint/format
+- `commitlint` + Conventional Commits for commit message validation
 
-## Release Flow
-```bash
-pnpm changeset
-pnpm run changeset:status
-```
+Active hooks:
+- `pre-commit`: `pnpm exec lint-staged`
+- `commit-msg`: `pnpm exec commitlint --edit "$1"`
 
-After changesets are merged into `main`, GitHub Actions will:
-- open a version PR via `changesets/action`
-- run publish flow via `pnpm run release:publish`
-- skip npm publish automatically when `NPM_TOKEN` is not configured
+If commit is blocked:
+1. Run `pnpm run format`
+2. Re-stage files
+3. Commit again
 
-## Registry Hosting
-- Deployment workflow: `.github/workflows/deploy-registry.yml`
-- Target URL (GitHub Pages): `https://curiousbus.github.io/frontend-template-blocks/`
-- Registry entrypoint: `https://curiousbus.github.io/frontend-template-blocks/registry.json`
-- Example item URL: `https://curiousbus.github.io/frontend-template-blocks/r/hero-split.json`
-- Storybook URL (root): `https://curiousbus.github.io/frontend-template-blocks/`
-- One-time setup: enable GitHub Pages in repo settings (`Settings -> Pages`) and select GitHub Actions as the source.
+Commit examples:
+- `feat(blocks): add feature-comparison block`
+- `fix(registry): clean stale output before build`
+- `docs(readme): add contributor setup guide`
 
-## Use This Registry (Consumer Guide)
-1. Initialize shadcn in your project (if you have not done it yet).
-2. Install a block by item URL:
+## Contribution Workflow
+1. Create or pick an issue first (issue-first workflow).
+2. Create a branch from `main` with prefix `codex/` (for example `codex/add-feature-comparison`).
+3. Implement changes with tests/docs.
+4. Run `pnpm run check` (and `pnpm run visual:test` if UI is affected).
+5. Push branch and open PR; include `Closes #<issue-number>` in PR body.
+6. Merge and close the issue.
+
+## Adding a New Block Checklist
+1. Add component in `packages/blocks/src/<block-name>.tsx`.
+2. Add registry item in `packages/blocks/registry/<block-name>.json`.
+3. Export in `packages/blocks/src/index.ts`.
+4. Add Storybook story in `packages/blocks/src/stories`.
+5. Update examples app if needed.
+6. Update visual test coverage in `tests/visual/blocks.spec.ts`.
+7. Run `pnpm run build:registry` and `pnpm run smoke:install`.
+
+## Consumer Guide
+1. Initialize shadcn in your project (if not already done).
+2. Install block by item URL:
 
 ```bash
 shadcn add https://curiousbus.github.io/frontend-template-blocks/r/cta-banner.json
 shadcn add https://curiousbus.github.io/frontend-template-blocks/r/hero-split.json
 ```
 
-3. Browse available item paths from: `https://curiousbus.github.io/frontend-template-blocks/registry.json`
+3. Discover all items:
+- `https://curiousbus.github.io/frontend-template-blocks/registry.json`
 
-## Current Phase
-Phase 1 scaffold from issue #1 + issue #6:
-- workspace + registry generation pipeline
-- active blocks: `cta-banner`, `hero-split`
-- lint/typecheck/test/smoke script baseline
-- changesets + release/deploy workflows
-- Storybook + examples app + Playwright visual regression
+## Hosting and Release
+- Deploy workflow: `.github/workflows/deploy-registry.yml`
+- CI workflow: `.github/workflows/ci.yml`
+- Visual regression workflow: `.github/workflows/visual-regression.yml`
+- Release workflow: `.github/workflows/release.yml`
+
+GitHub Pages endpoints:
+- Site root (Storybook): `https://curiousbus.github.io/frontend-template-blocks/`
+- Registry entrypoint: `https://curiousbus.github.io/frontend-template-blocks/registry.json`
+- Registry items: `https://curiousbus.github.io/frontend-template-blocks/r/<item>.json`

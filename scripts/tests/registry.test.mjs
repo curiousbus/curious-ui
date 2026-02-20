@@ -1,5 +1,5 @@
-import test from "node:test";
 import assert from "node:assert/strict";
+import test from "node:test";
 import { loadRegistryItems } from "../registry-utils.mjs";
 
 test("registry has at least one item", async () => {

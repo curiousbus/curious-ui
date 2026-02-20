@@ -18,32 +18,32 @@ const preview = {
         icon: "circlehollow",
         items: [
           { value: "light", title: "Light" },
-          { value: "dark", title: "Dark" }
+          { value: "dark", title: "Dark" },
         ],
-        dynamicTitle: true
-      }
-    }
+        dynamicTitle: true,
+      },
+    },
   },
   globals: {
-    theme: "light"
+    theme: "light",
   },
   parameters: {
     layout: "padded",
     controls: {
       matchers: {
         color: /(background|color)$/i,
-        date: /Date$/i
-      }
+        date: /Date$/i,
+      },
     },
     backgrounds: {
       default: "app-light",
       values: [
         { name: "app-light", value: "#ffffff" },
         { name: "app-dark", value: "#020817" },
-        { name: "slate", value: "#f8fafc" }
-      ]
-    }
-  }
+        { name: "slate", value: "#f8fafc" },
+      ],
+    },
+  },
 };
 
 export default preview;
