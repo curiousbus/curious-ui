@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "hero-split",
+  "type": "registry:block",
+  "title": "Hero Split",
+  "description": "Two-column marketing hero with CTAs and benefit highlights.",
+  "meta": {
+    "category": "marketing",
+    "a11y": "Semantic heading and keyboard-accessible action buttons."
+  },
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/hero-split.tsx",
+      "type": "registry:component",
+      "target": "components/blocks/hero-split.tsx"
+    }
+  ]
+}
