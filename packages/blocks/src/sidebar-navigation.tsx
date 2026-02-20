@@ -55,6 +55,8 @@ type SidebarNavContextValue = {
 const SidebarNavContext = React.createContext<SidebarNavContextValue | null>(null);
 const SIDEBAR_WIDTH = 256;
 const SIDEBAR_WIDTH_ICON = 48;
+const SIDEBAR_SPRING = { type: "spring" as const, stiffness: 300, damping: 30, mass: 0.85 };
+const HIGHLIGHT_SPRING = { type: "spring" as const, stiffness: 520, damping: 38, mass: 0.75 };
 
 function cn(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -234,7 +236,8 @@ export function SidebarNavPanel({
         type="button"
         className="flex h-full min-h-[620px] w-4 items-center justify-center border-r border-sidebar-border bg-sidebar text-sidebar-foreground/60 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
         onClick={() => setOpen(true)}
-        whileHover={shouldReduceMotion ? undefined : { x: 1 }}
+        whileHover={shouldReduceMotion ? undefined : { x: 2 }}
+        whileTap={shouldReduceMotion ? undefined : { scale: 0.96 }}
         aria-label="Reopen sidebar"
       >
         <RailReopenIcon />
@@ -251,7 +254,7 @@ export function SidebarNavPanel({
       animate={
         shouldReduceMotion ? undefined : { width: collapsed ? SIDEBAR_WIDTH_ICON : SIDEBAR_WIDTH }
       }
-      transition={shouldReduceMotion ? undefined : { duration: 0.22, ease: "easeOut" }}
+      transition={shouldReduceMotion ? undefined : SIDEBAR_SPRING}
       style={{ width: collapsed ? SIDEBAR_WIDTH_ICON : SIDEBAR_WIDTH }}
     >
       <div className="flex h-full flex-col">
@@ -260,14 +263,22 @@ export function SidebarNavPanel({
             <span className="inline-flex size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
               <BrandGlyph />
             </span>
-            {!collapsed ? (
-              <div className="min-w-0">
-                <p className="truncate text-[11px] uppercase tracking-wide text-sidebar-foreground/60">
-                  {subtitle}
-                </p>
-                <p className="truncate text-sm font-semibold text-sidebar-foreground">{title}</p>
-              </div>
-            ) : null}
+            <AnimatePresence initial={false}>
+              {!collapsed ? (
+                <motion.div
+                  className="min-w-0"
+                  initial={shouldReduceMotion ? undefined : { opacity: 0, x: -6 }}
+                  animate={shouldReduceMotion ? undefined : { opacity: 1, x: 0 }}
+                  exit={shouldReduceMotion ? undefined : { opacity: 0, x: -6 }}
+                  transition={shouldReduceMotion ? undefined : { duration: 0.18, ease: "easeOut" }}
+                >
+                  <p className="truncate text-[11px] uppercase tracking-wide text-sidebar-foreground/60">
+                    {subtitle}
+                  </p>
+                  <p className="truncate text-sm font-semibold text-sidebar-foreground">{title}</p>
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
           </div>
         </div>
 
@@ -295,7 +306,7 @@ export function SidebarNavPanel({
 
                     return (
                       <li key={item.id} className="group/menu-item relative space-y-1">
-                        <button
+                        <motion.button
                           type="button"
                           className={cn(
                             "peer/menu-button relative flex h-8 w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-hidden ring-sidebar-ring transition-[color,background-color,width,padding,height]",
@@ -311,16 +322,17 @@ export function SidebarNavPanel({
                           }}
                           aria-expanded={hasChildren ? isSubmenuOpen : undefined}
                           title={collapsed ? item.label : undefined}
+                          whileHover={
+                            shouldReduceMotion ? undefined : collapsed ? { scale: 1.02 } : { x: 2 }
+                          }
+                          whileTap={shouldReduceMotion ? undefined : { scale: 0.985 }}
                         >
                           {isActive ? (
                             <motion.span
                               layoutId={`active-item-${highlightLayoutId}`}
+                              layout
                               className="absolute inset-0 rounded-md bg-sidebar-accent"
-                              transition={
-                                shouldReduceMotion
-                                  ? undefined
-                                  : { duration: 0.2, ease: "easeInOut" }
-                              }
+                              transition={shouldReduceMotion ? undefined : HIGHLIGHT_SPRING}
                             />
                           ) : null}
 
@@ -350,13 +362,13 @@ export function SidebarNavPanel({
                               <ChevronIcon />
                             </motion.span>
                           ) : null}
-                        </button>
+                        </motion.button>
 
                         <AnimatePresence initial={false}>
                           {hasChildren && isSubmenuOpen ? (
                             <motion.ul
                               initial={
-                                shouldReduceMotion ? undefined : { opacity: 0, height: 0, y: -2 }
+                                shouldReduceMotion ? undefined : { opacity: 0, height: 0, y: -4 }
                               }
                               animate={
                                 shouldReduceMotion
@@ -364,10 +376,10 @@ export function SidebarNavPanel({
                                   : { opacity: 1, height: "auto", y: 0 }
                               }
                               exit={
-                                shouldReduceMotion ? undefined : { opacity: 0, height: 0, y: -2 }
+                                shouldReduceMotion ? undefined : { opacity: 0, height: 0, y: -4 }
                               }
                               transition={
-                                shouldReduceMotion ? undefined : { duration: 0.18, ease: "easeOut" }
+                                shouldReduceMotion ? undefined : { duration: 0.22, ease: "easeOut" }
                               }
                               className="border-sidebar-border mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l px-2.5 py-0.5"
                             >
@@ -375,7 +387,7 @@ export function SidebarNavPanel({
                                 const isChildActive = activeItemId === child.id;
                                 return (
                                   <li key={child.id} className="group/menu-sub-item relative">
-                                    <button
+                                    <motion.button
                                       type="button"
                                       className={cn(
                                         "relative flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-left outline-hidden ring-sidebar-ring transition-colors",
@@ -383,15 +395,16 @@ export function SidebarNavPanel({
                                         isChildActive && "text-sidebar-accent-foreground",
                                       )}
                                       onClick={() => selectAction(child)}
+                                      whileHover={shouldReduceMotion ? undefined : { x: 2 }}
+                                      whileTap={shouldReduceMotion ? undefined : { scale: 0.985 }}
                                     >
                                       {isChildActive ? (
                                         <motion.span
                                           layoutId={`active-item-${highlightLayoutId}`}
+                                          layout
                                           className="absolute inset-0 rounded-md bg-sidebar-accent"
                                           transition={
-                                            shouldReduceMotion
-                                              ? undefined
-                                              : { duration: 0.2, ease: "easeInOut" }
+                                            shouldReduceMotion ? undefined : HIGHLIGHT_SPRING
                                           }
                                         />
                                       ) : null}
@@ -407,7 +420,7 @@ export function SidebarNavPanel({
                                           {child.badge}
                                         </span>
                                       ) : null}
-                                    </button>
+                                    </motion.button>
                                   </li>
                                 );
                               })}
