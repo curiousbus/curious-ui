@@ -1,4 +1,4 @@
-import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import * as React from "react";
 
 type SidebarNavAction = {
@@ -52,13 +52,20 @@ type SidebarNavContextValue = {
   toggleOpen: () => void;
 };
 
+type ActiveIndicatorRect = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
+
 const SidebarNavContext = React.createContext<SidebarNavContextValue | null>(null);
 const SIDEBAR_WIDTH = 256;
 const SIDEBAR_WIDTH_ICON = 48;
 const SIDEBAR_WIDTH_TRANSITION = { duration: 0.28, ease: "easeOut" as const };
-const HIGHLIGHT_TRANSITION = { duration: 0.24, ease: "easeInOut" as const };
-const ACTIVE_HIGHLIGHT_CLASS =
-  "absolute inset-0 rounded-md border border-sidebar-primary/45 bg-gradient-to-b from-sidebar-primary/28 to-sidebar-primary/14 ring-1 ring-sidebar-primary/30 shadow-sm";
+const INDICATOR_TRANSITION = { type: "spring" as const, stiffness: 420, damping: 34, mass: 0.8 };
+const ACTIVE_INDICATOR_CLASS =
+  "pointer-events-none absolute left-0 top-0 z-0 rounded-md border border-sidebar-primary/50 bg-gradient-to-b from-sidebar-primary/30 to-sidebar-primary/16 shadow-sm ring-1 ring-sidebar-primary/35";
 
 function cn(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -211,7 +218,11 @@ export function SidebarNavPanel({
     });
   }, [activeItemId, groups]);
 
-  const highlightLayoutId = React.useId();
+  const navRef = React.useRef<HTMLElement | null>(null);
+  const buttonRefs = React.useRef<Map<string, HTMLButtonElement>>(new Map());
+  const [activeIndicatorRect, setActiveIndicatorRect] = React.useState<ActiveIndicatorRect | null>(
+    null,
+  );
 
   const selectAction = React.useCallback(
     (action: SidebarNavAction) => {
@@ -227,6 +238,110 @@ export function SidebarNavPanel({
       [itemId]: !prev[itemId],
     }));
   }, []);
+
+  const expandedStateKey = React.useMemo(() => {
+    return Object.entries(expandedByItemId)
+      .filter(([, isOpen]) => isOpen)
+      .map(([id]) => id)
+      .sort()
+      .join("|");
+  }, [expandedByItemId]);
+
+  const setButtonRef = React.useCallback((id: string, node: HTMLButtonElement | null) => {
+    if (node) {
+      buttonRefs.current.set(id, node);
+      return;
+    }
+    buttonRefs.current.delete(id);
+  }, []);
+
+  const updateActiveIndicator = React.useCallback(() => {
+    const navEl = navRef.current;
+    if (!navEl) {
+      setActiveIndicatorRect(null);
+      return;
+    }
+
+    let activeButtonEl = buttonRefs.current.get(activeItemId) ?? null;
+    if (!activeButtonEl) {
+      const parentId = findParentItemId(groups, activeItemId);
+      if (parentId) {
+        activeButtonEl = buttonRefs.current.get(parentId) ?? null;
+      }
+    }
+
+    if (!activeButtonEl) {
+      setActiveIndicatorRect(null);
+      return;
+    }
+
+    const navRect = navEl.getBoundingClientRect();
+    const activeRect = activeButtonEl.getBoundingClientRect();
+    const nextRect = {
+      x: activeRect.left - navRect.left + navEl.scrollLeft,
+      y: activeRect.top - navRect.top + navEl.scrollTop,
+      width: activeRect.width,
+      height: activeRect.height,
+    };
+
+    setActiveIndicatorRect((prev) => {
+      if (
+        prev &&
+        Math.abs(prev.x - nextRect.x) < 0.5 &&
+        Math.abs(prev.y - nextRect.y) < 0.5 &&
+        Math.abs(prev.width - nextRect.width) < 0.5 &&
+        Math.abs(prev.height - nextRect.height) < 0.5
+      ) {
+        return prev;
+      }
+      return nextRect;
+    });
+  }, [activeItemId, groups]);
+
+  React.useLayoutEffect(() => {
+    void expandedStateKey;
+
+    if (!open) {
+      setActiveIndicatorRect(null);
+      return;
+    }
+
+    const frame = requestAnimationFrame(() => {
+      updateActiveIndicator();
+    });
+
+    return () => {
+      cancelAnimationFrame(frame);
+    };
+  }, [expandedStateKey, open, updateActiveIndicator]);
+
+  React.useEffect(() => {
+    if (!open) {
+      return;
+    }
+
+    const navEl = navRef.current;
+    if (!navEl) {
+      return;
+    }
+
+    const observer = new ResizeObserver(() => {
+      updateActiveIndicator();
+    });
+    observer.observe(navEl);
+
+    const activeButtonEl = buttonRefs.current.get(activeItemId);
+    if (activeButtonEl) {
+      observer.observe(activeButtonEl);
+    }
+
+    window.addEventListener("resize", updateActiveIndicator);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", updateActiveIndicator);
+    };
+  }, [activeItemId, open, updateActiveIndicator]);
 
   if (!open) {
     if (!showRailWhenHidden) {
@@ -284,162 +399,154 @@ export function SidebarNavPanel({
           </div>
         </div>
 
-        <LayoutGroup id={`sidebar-highlight-${highlightLayoutId}`}>
-          <nav className="flex-1 overflow-y-auto">
-            {groups.map((group) => (
-              <section key={group.id} className="relative flex w-full min-w-0 flex-col p-2">
-                <p
-                  className={cn(
-                    "flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-sidebar-foreground/70",
-                    collapsed && "sr-only",
-                  )}
-                >
-                  {group.label}
-                </p>
+        <nav ref={navRef} className="relative flex-1 overflow-y-auto">
+          {activeIndicatorRect ? (
+            <motion.span
+              aria-hidden="true"
+              className={ACTIVE_INDICATOR_CLASS}
+              initial={false}
+              animate={{
+                x: activeIndicatorRect.x,
+                y: activeIndicatorRect.y,
+                width: activeIndicatorRect.width,
+                height: activeIndicatorRect.height,
+                opacity: 1,
+              }}
+              transition={shouldReduceMotion ? { duration: 0 } : INDICATOR_TRANSITION}
+            />
+          ) : null}
+          {groups.map((group) => (
+            <section key={group.id} className="relative flex w-full min-w-0 flex-col p-2">
+              <p
+                className={cn(
+                  "flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-sidebar-foreground/70",
+                  collapsed && "sr-only",
+                )}
+              >
+                {group.label}
+              </p>
 
-                <ul className="flex w-full min-w-0 flex-col gap-1">
-                  {group.items.map((item) => {
-                    const hasChildren = Boolean(item.children && item.children.length > 0);
-                    const hasActiveChild = Boolean(
-                      item.children?.some((child) => child.id === activeItemId),
-                    );
-                    const isItemActive = activeItemId === item.id;
-                    const isSubmenuOpen = !collapsed && Boolean(expandedByItemId[item.id]);
+              <ul className="flex w-full min-w-0 flex-col gap-1">
+                {group.items.map((item) => {
+                  const hasChildren = Boolean(item.children && item.children.length > 0);
+                  const hasActiveChild = Boolean(
+                    item.children?.some((child) => child.id === activeItemId),
+                  );
+                  const isItemActive = activeItemId === item.id;
+                  const isSubmenuOpen = !collapsed && Boolean(expandedByItemId[item.id]);
 
-                    return (
-                      <li key={item.id} className="group/menu-item relative space-y-1">
-                        <motion.button
-                          type="button"
-                          className={cn(
-                            "peer/menu-button relative flex h-8 w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-hidden ring-sidebar-ring transition-[color,background-color,width,padding,height]",
-                            "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground",
-                            (isItemActive || hasActiveChild) && "font-medium text-sidebar-primary",
-                            collapsed && "size-8 justify-center p-2",
-                          )}
-                          onClick={() => {
-                            selectAction(item);
-                            if (hasChildren) {
-                              toggleSubmenu(item.id);
-                            }
-                          }}
-                          aria-expanded={hasChildren ? isSubmenuOpen : undefined}
-                          title={collapsed ? item.label : undefined}
-                          whileHover={
-                            shouldReduceMotion ? undefined : collapsed ? { scale: 1.04 } : { x: 3 }
+                  return (
+                    <li key={item.id} className="group/menu-item relative space-y-1">
+                      <motion.button
+                        type="button"
+                        ref={(node) => {
+                          setButtonRef(item.id, node);
+                        }}
+                        className={cn(
+                          "peer/menu-button relative z-10 flex h-8 w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-hidden ring-sidebar-ring transition-[color,background-color,width,padding,height]",
+                          "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground",
+                          (isItemActive || hasActiveChild) && "font-medium text-sidebar-primary",
+                          collapsed && "size-8 justify-center p-2",
+                        )}
+                        onClick={() => {
+                          selectAction(item);
+                          if (hasChildren) {
+                            toggleSubmenu(item.id);
                           }
-                          whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
-                        >
-                          {isItemActive ? (
-                            <motion.span
-                              layoutId={`active-item-${highlightLayoutId}`}
-                              layout
-                              className={ACTIVE_HIGHLIGHT_CLASS}
-                              transition={shouldReduceMotion ? undefined : HIGHLIGHT_TRANSITION}
-                            />
-                          ) : null}
+                        }}
+                        aria-expanded={hasChildren ? isSubmenuOpen : undefined}
+                        title={collapsed ? item.label : undefined}
+                        whileHover={
+                          shouldReduceMotion ? undefined : collapsed ? { scale: 1.04 } : { x: 3 }
+                        }
+                        whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
+                      >
+                        <span className="relative z-10 inline-flex size-4 shrink-0 items-center justify-center">
+                          {item.icon ?? <DefaultItemIcon />}
+                        </span>
 
-                          <span className="relative z-10 inline-flex size-4 shrink-0 items-center justify-center">
-                            {item.icon ?? <DefaultItemIcon />}
+                        {!collapsed ? (
+                          <span className="relative z-10 flex min-w-0 flex-1 items-center justify-between gap-2">
+                            <span className="truncate">{item.label}</span>
+                            {item.badge ? (
+                              <span className="pointer-events-none absolute right-1 top-1.5 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums text-sidebar-foreground/80">
+                                {item.badge}
+                              </span>
+                            ) : null}
                           </span>
+                        ) : null}
 
-                          {!collapsed ? (
-                            <span className="relative z-10 flex min-w-0 flex-1 items-center justify-between gap-2">
-                              <span className="truncate">{item.label}</span>
-                              {item.badge ? (
-                                <span className="pointer-events-none absolute right-1 top-1.5 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums text-sidebar-foreground/80">
-                                  {item.badge}
-                                </span>
-                              ) : null}
-                            </span>
-                          ) : null}
+                        {hasChildren && !collapsed ? (
+                          <motion.span
+                            className="relative z-10 text-sidebar-foreground/60"
+                            animate={isSubmenuOpen ? { rotate: 90 } : { rotate: 0 }}
+                            transition={
+                              shouldReduceMotion ? undefined : { duration: 0.2, ease: "easeOut" }
+                            }
+                          >
+                            <ChevronIcon />
+                          </motion.span>
+                        ) : null}
+                      </motion.button>
 
-                          {hasChildren && !collapsed ? (
-                            <motion.span
-                              className="relative z-10 text-sidebar-foreground/60"
-                              animate={isSubmenuOpen ? { rotate: 90 } : { rotate: 0 }}
-                              transition={
-                                shouldReduceMotion ? undefined : { duration: 0.2, ease: "easeOut" }
-                              }
-                            >
-                              <ChevronIcon />
-                            </motion.span>
-                          ) : null}
-                        </motion.button>
-
-                        <AnimatePresence initial={false}>
-                          {hasChildren && isSubmenuOpen ? (
-                            <motion.ul
-                              initial={
-                                shouldReduceMotion ? undefined : { opacity: 0, height: 0, y: -6 }
-                              }
-                              animate={
-                                shouldReduceMotion
-                                  ? undefined
-                                  : { opacity: 1, height: "auto", y: 0 }
-                              }
-                              exit={
-                                shouldReduceMotion ? undefined : { opacity: 0, height: 0, y: -6 }
-                              }
-                              transition={
-                                shouldReduceMotion ? undefined : { duration: 0.2, ease: "easeOut" }
-                              }
-                              className="border-sidebar-border ml-3.5 mr-0 flex w-[calc(100%-0.875rem)] min-w-0 translate-x-px flex-col gap-1 border-l pl-2.5 pr-0 py-0.5"
-                            >
-                              {item.children?.map((child) => {
-                                const isChildActive = activeItemId === child.id;
-                                return (
-                                  <li
-                                    key={child.id}
-                                    className="group/menu-sub-item relative w-full"
+                      <AnimatePresence initial={false}>
+                        {hasChildren && isSubmenuOpen ? (
+                          <motion.ul
+                            initial={
+                              shouldReduceMotion ? undefined : { opacity: 0, height: 0, y: -6 }
+                            }
+                            animate={
+                              shouldReduceMotion ? undefined : { opacity: 1, height: "auto", y: 0 }
+                            }
+                            exit={shouldReduceMotion ? undefined : { opacity: 0, height: 0, y: -6 }}
+                            transition={
+                              shouldReduceMotion ? undefined : { duration: 0.2, ease: "easeOut" }
+                            }
+                            className="border-sidebar-border ml-3.5 mr-0 flex w-[calc(100%-0.875rem)] min-w-0 translate-x-px flex-col gap-1 border-l pl-2.5 pr-0 py-0.5"
+                          >
+                            {item.children?.map((child) => {
+                              const isChildActive = activeItemId === child.id;
+                              return (
+                                <li key={child.id} className="group/menu-sub-item relative w-full">
+                                  <motion.button
+                                    type="button"
+                                    ref={(node) => {
+                                      setButtonRef(child.id, node);
+                                    }}
+                                    className={cn(
+                                      "relative z-10 flex h-7 w-full min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-left outline-hidden ring-sidebar-ring transition-colors",
+                                      "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground",
+                                      isChildActive && "text-sidebar-primary",
+                                    )}
+                                    onClick={() => selectAction(child)}
+                                    whileHover={shouldReduceMotion ? undefined : { x: 3 }}
+                                    whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
                                   >
-                                    <motion.button
-                                      type="button"
-                                      className={cn(
-                                        "relative flex h-7 w-full min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-left outline-hidden ring-sidebar-ring transition-colors",
-                                        "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground",
-                                        isChildActive && "text-sidebar-primary",
-                                      )}
-                                      onClick={() => selectAction(child)}
-                                      whileHover={shouldReduceMotion ? undefined : { x: 3 }}
-                                      whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
-                                    >
-                                      {isChildActive ? (
-                                        <motion.span
-                                          layoutId={`active-item-${highlightLayoutId}`}
-                                          layout
-                                          className={ACTIVE_HIGHLIGHT_CLASS}
-                                          transition={
-                                            shouldReduceMotion ? undefined : HIGHLIGHT_TRANSITION
-                                          }
-                                        />
-                                      ) : null}
-
-                                      <span className="relative z-10 inline-flex size-4 shrink-0 items-center justify-center text-sidebar-accent-foreground">
-                                        {child.icon ?? <SubmenuFallbackIcon />}
+                                    <span className="relative z-10 inline-flex size-4 shrink-0 items-center justify-center text-sidebar-accent-foreground">
+                                      {child.icon ?? <SubmenuFallbackIcon />}
+                                    </span>
+                                    <span className="relative z-10 truncate text-sm">
+                                      {child.label}
+                                    </span>
+                                    {child.badge ? (
+                                      <span className="relative z-10 ml-auto rounded-md px-1 text-xs tabular-nums text-sidebar-foreground/80">
+                                        {child.badge}
                                       </span>
-                                      <span className="relative z-10 truncate text-sm">
-                                        {child.label}
-                                      </span>
-                                      {child.badge ? (
-                                        <span className="relative z-10 ml-auto rounded-md px-1 text-xs tabular-nums text-sidebar-foreground/80">
-                                          {child.badge}
-                                        </span>
-                                      ) : null}
-                                    </motion.button>
-                                  </li>
-                                );
-                              })}
-                            </motion.ul>
-                          ) : null}
-                        </AnimatePresence>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </section>
-            ))}
-          </nav>
-        </LayoutGroup>
+                                    ) : null}
+                                  </motion.button>
+                                </li>
+                              );
+                            })}
+                          </motion.ul>
+                        ) : null}
+                      </AnimatePresence>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          ))}
+        </nav>
       </div>
     </motion.aside>
   );
