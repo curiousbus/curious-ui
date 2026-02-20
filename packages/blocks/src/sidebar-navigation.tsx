@@ -58,7 +58,7 @@ const SIDEBAR_WIDTH_ICON = 48;
 const SIDEBAR_WIDTH_TRANSITION = { duration: 0.28, ease: "easeOut" as const };
 const HIGHLIGHT_TRANSITION = { duration: 0.24, ease: "easeInOut" as const };
 const ACTIVE_HIGHLIGHT_CLASS =
-  "absolute inset-0 rounded-md bg-sidebar-primary/18 ring-1 ring-sidebar-primary/45 shadow-[inset_0_1px_0_hsl(var(--background)/0.72)]";
+  "absolute inset-0 rounded-md border border-sidebar-primary/45 bg-gradient-to-b from-sidebar-primary/28 to-sidebar-primary/14 ring-1 ring-sidebar-primary/30 shadow-sm";
 
 function cn(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -383,7 +383,7 @@ export function SidebarNavPanel({
                               transition={
                                 shouldReduceMotion ? undefined : { duration: 0.2, ease: "easeOut" }
                               }
-                              className="border-sidebar-border mx-3.5 flex w-full min-w-0 translate-x-px flex-col gap-1 border-l px-2.5 py-0.5"
+                              className="border-sidebar-border ml-3.5 mr-0 flex w-[calc(100%-0.875rem)] min-w-0 translate-x-px flex-col gap-1 border-l pl-2.5 pr-0 py-0.5"
                             >
                               {item.children?.map((child) => {
                                 const isChildActive = activeItemId === child.id;
