@@ -27,7 +27,7 @@ pnpm run build:storybook
 ```
 
 Online Storybook (deployed by GitHub Pages):  
-`https://curiousbus.github.io/frontend-template-blocks/storybook/`
+`https://curiousbus.github.io/frontend-template-blocks/`
 
 ## Examples App
 ```bash
@@ -61,7 +61,7 @@ After changesets are merged into `main`, GitHub Actions will:
 - Target URL (GitHub Pages): `https://curiousbus.github.io/frontend-template-blocks/`
 - Registry entrypoint: `https://curiousbus.github.io/frontend-template-blocks/registry.json`
 - Example item URL: `https://curiousbus.github.io/frontend-template-blocks/r/simple-hero.json`
-- Storybook URL: `https://curiousbus.github.io/frontend-template-blocks/storybook/`
+- Storybook URL (root): `https://curiousbus.github.io/frontend-template-blocks/`
 - One-time setup: enable GitHub Pages in repo settings (`Settings -> Pages`) and select GitHub Actions as the source.
 
 ## Use This Registry (Consumer Guide)
@@ -82,7 +82,7 @@ shadcn add https://curiousbus.github.io/frontend-template-blocks/r/stats-strip.j
 shadcn add https://curiousbus.github.io/frontend-template-blocks/r/cta-banner.json
 ```
 
-4. Browse available links from the homepage: `https://curiousbus.github.io/frontend-template-blocks/`
+4. Browse available item paths from: `https://curiousbus.github.io/frontend-template-blocks/registry.json`
 
 ## Current Phase
 Phase 1 scaffold from issue #1 + issue #6:

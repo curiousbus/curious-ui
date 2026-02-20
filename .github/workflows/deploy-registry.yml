@@ -33,7 +33,14 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run build:registry
       - run: pnpm run build:storybook
-      - run: rm -rf apps/registry/public/storybook && cp -R storybook-static apps/registry/public/storybook
+      - name: Publish Storybook at root and keep registry endpoints
+        run: |
+          cp apps/registry/public/registry.json /tmp/registry.json
+          cp -R apps/registry/public/r /tmp/r
+          rm -rf apps/registry/public/*
+          cp -R storybook-static/. apps/registry/public/
+          cp /tmp/registry.json apps/registry/public/registry.json
+          cp -R /tmp/r apps/registry/public/r
       - run: touch apps/registry/public/.nojekyll
 
       - id: pages
