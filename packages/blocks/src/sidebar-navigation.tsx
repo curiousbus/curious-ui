@@ -65,7 +65,7 @@ const SIDEBAR_WIDTH_ICON = 48;
 const SIDEBAR_WIDTH_TRANSITION = { duration: 0.28, ease: "easeOut" as const };
 const INDICATOR_TRANSITION = { type: "spring" as const, stiffness: 420, damping: 34, mass: 0.8 };
 const ACTIVE_INDICATOR_CLASS =
-  "pointer-events-none absolute left-0 top-0 z-0 rounded-md border border-sidebar-primary/50 bg-gradient-to-b from-sidebar-primary/30 to-sidebar-primary/16 shadow-sm ring-1 ring-sidebar-primary/35";
+  "pointer-events-none absolute left-0 top-0 z-0 rounded-md border border-sidebar-border/80 bg-sidebar shadow-sm ring-1 ring-sidebar-primary/15";
 
 function cn(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -413,7 +413,12 @@ export function SidebarNavPanel({
                 opacity: 1,
               }}
               transition={shouldReduceMotion ? { duration: 0 } : INDICATOR_TRANSITION}
-            />
+            >
+              <span
+                aria-hidden="true"
+                className="absolute left-1 top-1 bottom-1 w-0.5 rounded-full bg-sidebar-primary/80"
+              />
+            </motion.span>
           ) : null}
           {groups.map((group) => (
             <section key={group.id} className="relative flex w-full min-w-0 flex-col p-2">
@@ -445,7 +450,7 @@ export function SidebarNavPanel({
                         className={cn(
                           "peer/menu-button relative z-10 flex h-8 w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-hidden ring-sidebar-ring transition-[color,background-color,width,padding,height]",
                           "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground",
-                          (isItemActive || hasActiveChild) && "font-medium text-sidebar-primary",
+                          (isItemActive || hasActiveChild) && "font-medium text-sidebar-foreground",
                           collapsed && "size-8 justify-center p-2",
                         )}
                         onClick={() => {
@@ -461,7 +466,12 @@ export function SidebarNavPanel({
                         }
                         whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
                       >
-                        <span className="relative z-10 inline-flex size-4 shrink-0 items-center justify-center">
+                        <span
+                          className={cn(
+                            "relative z-10 inline-flex size-4 shrink-0 items-center justify-center",
+                            (isItemActive || hasActiveChild) && "text-sidebar-primary",
+                          )}
+                        >
                           {item.icon ?? <DefaultItemIcon />}
                         </span>
 
@@ -516,13 +526,18 @@ export function SidebarNavPanel({
                                     className={cn(
                                       "relative z-10 flex h-7 w-full min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-left outline-hidden ring-sidebar-ring transition-colors",
                                       "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground",
-                                      isChildActive && "text-sidebar-primary",
+                                      isChildActive && "font-medium text-sidebar-foreground",
                                     )}
                                     onClick={() => selectAction(child)}
                                     whileHover={shouldReduceMotion ? undefined : { x: 3 }}
                                     whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
                                   >
-                                    <span className="relative z-10 inline-flex size-4 shrink-0 items-center justify-center text-sidebar-accent-foreground">
+                                    <span
+                                      className={cn(
+                                        "relative z-10 inline-flex size-4 shrink-0 items-center justify-center text-sidebar-foreground/75",
+                                        isChildActive && "text-sidebar-primary",
+                                      )}
+                                    >
                                       {child.icon ?? <SubmenuFallbackIcon />}
                                     </span>
                                     <span className="relative z-10 truncate text-sm">
