@@ -57,6 +57,8 @@ const SIDEBAR_WIDTH = 256;
 const SIDEBAR_WIDTH_ICON = 48;
 const SIDEBAR_WIDTH_TRANSITION = { duration: 0.28, ease: "easeOut" as const };
 const HIGHLIGHT_TRANSITION = { duration: 0.24, ease: "easeInOut" as const };
+const ACTIVE_HIGHLIGHT_CLASS =
+  "absolute inset-0 rounded-md bg-sidebar-primary/18 ring-1 ring-sidebar-primary/45 shadow-[inset_0_1px_0_hsl(var(--background)/0.72)]";
 
 function cn(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -311,7 +313,7 @@ export function SidebarNavPanel({
                           className={cn(
                             "peer/menu-button relative flex h-8 w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-hidden ring-sidebar-ring transition-[color,background-color,width,padding,height]",
                             "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground",
-                            isActive && "font-medium text-sidebar-accent-foreground",
+                            isActive && "font-medium text-sidebar-primary",
                             collapsed && "size-8 justify-center p-2",
                           )}
                           onClick={() => {
@@ -331,7 +333,7 @@ export function SidebarNavPanel({
                             <motion.span
                               layoutId={`active-item-${highlightLayoutId}`}
                               layout
-                              className="absolute inset-0 rounded-md bg-sidebar-accent ring-1 ring-sidebar-ring/35 shadow-[inset_0_1px_0_hsl(var(--background)/0.7)]"
+                              className={ACTIVE_HIGHLIGHT_CLASS}
                               transition={shouldReduceMotion ? undefined : HIGHLIGHT_TRANSITION}
                             />
                           ) : null}
@@ -381,18 +383,21 @@ export function SidebarNavPanel({
                               transition={
                                 shouldReduceMotion ? undefined : { duration: 0.2, ease: "easeOut" }
                               }
-                              className="border-sidebar-border mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l px-2.5 py-0.5"
+                              className="border-sidebar-border mx-3.5 flex w-full min-w-0 translate-x-px flex-col gap-1 border-l px-2.5 py-0.5"
                             >
                               {item.children?.map((child) => {
                                 const isChildActive = activeItemId === child.id;
                                 return (
-                                  <li key={child.id} className="group/menu-sub-item relative">
+                                  <li
+                                    key={child.id}
+                                    className="group/menu-sub-item relative w-full"
+                                  >
                                     <motion.button
                                       type="button"
                                       className={cn(
-                                        "relative flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-left outline-hidden ring-sidebar-ring transition-colors",
+                                        "relative flex h-7 w-full min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-left outline-hidden ring-sidebar-ring transition-colors",
                                         "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground",
-                                        isChildActive && "text-sidebar-accent-foreground",
+                                        isChildActive && "text-sidebar-primary",
                                       )}
                                       onClick={() => selectAction(child)}
                                       whileHover={shouldReduceMotion ? undefined : { x: 3 }}
@@ -402,7 +407,7 @@ export function SidebarNavPanel({
                                         <motion.span
                                           layoutId={`active-item-${highlightLayoutId}`}
                                           layout
-                                          className="absolute inset-0 rounded-md bg-sidebar-accent ring-1 ring-sidebar-ring/35 shadow-[inset_0_1px_0_hsl(var(--background)/0.7)]"
+                                          className={ACTIVE_HIGHLIGHT_CLASS}
                                           transition={
                                             shouldReduceMotion ? undefined : HIGHLIGHT_TRANSITION
                                           }
