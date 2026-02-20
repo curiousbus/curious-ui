@@ -63,7 +63,7 @@ export const Default = {
   render: () => {
     return (
       <SidebarNavProvider defaultOpen={true} defaultCollapsed={false}>
-        <div className="flex min-h-[620px] overflow-hidden rounded-lg border bg-background">
+        <div className="flex min-h-[620px] overflow-hidden rounded-xl border border-sidebar-border bg-sidebar">
           <SidebarNavPanel
             groups={groups}
             defaultActiveItemId="projects-active"
@@ -72,7 +72,7 @@ export const Default = {
           />
 
           <main className="flex flex-1 flex-col bg-background">
-            <div className="flex flex-wrap items-center gap-2 border-b px-4 py-3">
+            <div className="flex flex-wrap items-center gap-2 border-b border-border/70 px-4 py-3">
               <SidebarNavVisibilityTrigger />
               <SidebarNavCollapseTrigger />
             </div>

@@ -53,6 +53,8 @@ type SidebarNavContextValue = {
 };
 
 const SidebarNavContext = React.createContext<SidebarNavContextValue | null>(null);
+const SIDEBAR_WIDTH = 256;
+const SIDEBAR_WIDTH_ICON = 48;
 
 function cn(...classes: Array<string | false | null | undefined>) {
   return classes.filter(Boolean).join(" ");
@@ -230,7 +232,7 @@ export function SidebarNavPanel({
     return (
       <motion.button
         type="button"
-        className="flex h-full min-h-[620px] w-5 items-center justify-center border-r bg-background text-muted-foreground"
+        className="flex h-full min-h-[620px] w-4 items-center justify-center border-r border-sidebar-border bg-sidebar text-sidebar-foreground/60 transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
         onClick={() => setOpen(true)}
         whileHover={shouldReduceMotion ? undefined : { x: 1 }}
         aria-label="Reopen sidebar"
@@ -242,42 +244,47 @@ export function SidebarNavPanel({
 
   return (
     <motion.aside
-      className={cn("h-full min-h-[620px] overflow-hidden border-r bg-background", className)}
-      animate={shouldReduceMotion ? undefined : { width: collapsed ? 64 : 256 }}
+      className={cn(
+        "h-full min-h-[620px] overflow-hidden border-r border-sidebar-border bg-sidebar text-sidebar-foreground",
+        className,
+      )}
+      animate={
+        shouldReduceMotion ? undefined : { width: collapsed ? SIDEBAR_WIDTH_ICON : SIDEBAR_WIDTH }
+      }
       transition={shouldReduceMotion ? undefined : { duration: 0.22, ease: "easeOut" }}
-      style={{ width: collapsed ? 64 : 256 }}
+      style={{ width: collapsed ? SIDEBAR_WIDTH_ICON : SIDEBAR_WIDTH }}
     >
       <div className="flex h-full flex-col">
-        <div className="flex h-14 items-center border-b px-3">
+        <div className="flex h-14 items-center border-b border-sidebar-border px-2">
           <div className={cn("flex items-center gap-2", collapsed && "justify-center w-full")}>
-            <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-muted text-foreground">
+            <span className="inline-flex size-8 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
               <BrandGlyph />
             </span>
             {!collapsed ? (
               <div className="min-w-0">
-                <p className="truncate text-[11px] uppercase tracking-wide text-muted-foreground">
+                <p className="truncate text-[11px] uppercase tracking-wide text-sidebar-foreground/60">
                   {subtitle}
                 </p>
-                <p className="truncate text-sm font-semibold text-foreground">{title}</p>
+                <p className="truncate text-sm font-semibold text-sidebar-foreground">{title}</p>
               </div>
             ) : null}
           </div>
         </div>
 
         <LayoutGroup id={`sidebar-highlight-${highlightLayoutId}`}>
-          <nav className="flex-1 overflow-y-auto px-2 py-2">
+          <nav className="flex-1 overflow-y-auto">
             {groups.map((group) => (
-              <section key={group.id} className="py-2">
+              <section key={group.id} className="relative flex w-full min-w-0 flex-col p-2">
                 <p
                   className={cn(
-                    "px-2 pb-1 text-[11px] font-medium uppercase tracking-wide text-muted-foreground",
+                    "flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-sidebar-foreground/70",
                     collapsed && "sr-only",
                   )}
                 >
                   {group.label}
                 </p>
 
-                <ul className="space-y-1">
+                <ul className="flex w-full min-w-0 flex-col gap-1">
                   {group.items.map((item) => {
                     const hasChildren = Boolean(item.children && item.children.length > 0);
                     const hasActiveChild = Boolean(
@@ -287,14 +294,14 @@ export function SidebarNavPanel({
                     const isSubmenuOpen = !collapsed && Boolean(expandedByItemId[item.id]);
 
                     return (
-                      <li key={item.id} className="space-y-1">
+                      <li key={item.id} className="group/menu-item relative space-y-1">
                         <button
                           type="button"
                           className={cn(
-                            "relative flex h-8 w-full items-center gap-2 rounded-md px-2 text-left text-sm text-muted-foreground transition-colors",
-                            "hover:bg-muted hover:text-foreground",
-                            isActive && "text-foreground",
-                            collapsed && "justify-center px-1",
+                            "peer/menu-button relative flex h-8 w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-hidden ring-sidebar-ring transition-[color,background-color,width,padding,height]",
+                            "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground",
+                            isActive && "font-medium text-sidebar-accent-foreground",
+                            collapsed && "size-8 justify-center p-2",
                           )}
                           onClick={() => {
                             selectAction(item);
@@ -308,7 +315,7 @@ export function SidebarNavPanel({
                           {isActive ? (
                             <motion.span
                               layoutId={`active-item-${highlightLayoutId}`}
-                              className="absolute inset-0 rounded-md bg-muted ring-1 ring-border"
+                              className="absolute inset-0 rounded-md bg-sidebar-accent"
                               transition={
                                 shouldReduceMotion
                                   ? undefined
@@ -317,7 +324,7 @@ export function SidebarNavPanel({
                             />
                           ) : null}
 
-                          <span className="relative z-10 inline-flex h-4 w-4 items-center justify-center shrink-0">
+                          <span className="relative z-10 inline-flex size-4 shrink-0 items-center justify-center">
                             {item.icon ?? <DefaultItemIcon />}
                           </span>
 
@@ -325,7 +332,7 @@ export function SidebarNavPanel({
                             <span className="relative z-10 flex min-w-0 flex-1 items-center justify-between gap-2">
                               <span className="truncate">{item.label}</span>
                               {item.badge ? (
-                                <span className="rounded bg-muted px-1 py-0.5 text-[10px] text-muted-foreground">
+                                <span className="pointer-events-none absolute right-1 top-1.5 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium tabular-nums text-sidebar-foreground/80">
                                   {item.badge}
                                 </span>
                               ) : null}
@@ -334,7 +341,7 @@ export function SidebarNavPanel({
 
                           {hasChildren && !collapsed ? (
                             <motion.span
-                              className="relative z-10 text-muted-foreground"
+                              className="relative z-10 text-sidebar-foreground/60"
                               animate={isSubmenuOpen ? { rotate: 90 } : { rotate: 0 }}
                               transition={
                                 shouldReduceMotion ? undefined : { duration: 0.18, ease: "easeOut" }
@@ -362,25 +369,25 @@ export function SidebarNavPanel({
                               transition={
                                 shouldReduceMotion ? undefined : { duration: 0.18, ease: "easeOut" }
                               }
-                              className="ml-4 space-y-1 border-l pl-2"
+                              className="border-sidebar-border mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l px-2.5 py-0.5"
                             >
                               {item.children?.map((child) => {
                                 const isChildActive = activeItemId === child.id;
                                 return (
-                                  <li key={child.id}>
+                                  <li key={child.id} className="group/menu-sub-item relative">
                                     <button
                                       type="button"
                                       className={cn(
-                                        "relative flex h-7 w-full items-center gap-2 rounded-md px-2 text-left text-xs text-muted-foreground transition-colors",
-                                        "hover:bg-muted hover:text-foreground",
-                                        isChildActive && "text-foreground",
+                                        "relative flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-left outline-hidden ring-sidebar-ring transition-colors",
+                                        "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground",
+                                        isChildActive && "text-sidebar-accent-foreground",
                                       )}
                                       onClick={() => selectAction(child)}
                                     >
                                       {isChildActive ? (
                                         <motion.span
                                           layoutId={`active-item-${highlightLayoutId}`}
-                                          className="absolute inset-0 rounded-md bg-muted ring-1 ring-border"
+                                          className="absolute inset-0 rounded-md bg-sidebar-accent"
                                           transition={
                                             shouldReduceMotion
                                               ? undefined
@@ -389,12 +396,14 @@ export function SidebarNavPanel({
                                         />
                                       ) : null}
 
-                                      <span className="relative z-10 inline-flex h-3.5 w-3.5 items-center justify-center shrink-0">
+                                      <span className="relative z-10 inline-flex size-4 shrink-0 items-center justify-center text-sidebar-accent-foreground">
                                         {child.icon ?? <SubmenuFallbackIcon />}
                                       </span>
-                                      <span className="relative z-10 truncate">{child.label}</span>
+                                      <span className="relative z-10 truncate text-sm">
+                                        {child.label}
+                                      </span>
                                       {child.badge ? (
-                                        <span className="relative z-10 ml-auto rounded bg-muted px-1 py-0.5 text-[10px] text-muted-foreground">
+                                        <span className="relative z-10 ml-auto rounded-md px-1 text-xs tabular-nums text-sidebar-foreground/80">
                                           {child.badge}
                                         </span>
                                       ) : null}
@@ -427,11 +436,14 @@ export function SidebarNavCollapseTrigger({
   const { collapsed, open, setOpen, toggleCollapsed } = useSidebarNav();
   const shouldReduceMotion = useReducedMotion();
 
+  const hasLabel = Boolean(label);
+
   return (
     <motion.button
       type="button"
       className={cn(
-        "inline-flex h-8 items-center gap-2 rounded-md border bg-background px-2.5 text-sm text-foreground",
+        "inline-flex items-center justify-center rounded-md outline-hidden ring-ring transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-2",
+        hasLabel ? "h-8 gap-2 px-2.5 text-sm" : "size-7",
         className,
       )}
       onClick={(event) => {
@@ -449,10 +461,10 @@ export function SidebarNavCollapseTrigger({
       aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
       {...props}
     >
-      <span className="inline-flex h-4 w-4 items-center justify-center">
+      <span className="inline-flex size-4 items-center justify-center">
         <CollapseIcon collapsed={collapsed} />
       </span>
-      <span>{label ?? (collapsed ? "Expand" : "Collapse")}</span>
+      {hasLabel ? <span>{label}</span> : <span className="sr-only">Toggle Sidebar</span>}
     </motion.button>
   );
 }
@@ -466,11 +478,14 @@ export function SidebarNavVisibilityTrigger({
   const { open, toggleOpen } = useSidebarNav();
   const shouldReduceMotion = useReducedMotion();
 
+  const hasLabel = Boolean(label);
+
   return (
     <motion.button
       type="button"
       className={cn(
-        "inline-flex h-8 items-center gap-2 rounded-md border bg-background px-2.5 text-sm text-foreground",
+        "inline-flex items-center justify-center rounded-md outline-hidden ring-ring transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:ring-2",
+        hasLabel ? "h-8 gap-2 px-2.5 text-sm" : "size-7",
         className,
       )}
       onClick={(event) => {
@@ -484,10 +499,10 @@ export function SidebarNavVisibilityTrigger({
       aria-label={open ? "Hide sidebar" : "Show sidebar"}
       {...props}
     >
-      <span className="inline-flex h-4 w-4 items-center justify-center">
+      <span className="inline-flex size-4 items-center justify-center">
         <VisibilityIcon open={open} />
       </span>
-      <span>{label ?? (open ? "Hide Sidebar" : "Show Sidebar")}</span>
+      {hasLabel ? <span>{label}</span> : <span className="sr-only">Toggle Sidebar Visibility</span>}
     </motion.button>
   );
 }
