@@ -60,7 +60,7 @@ After changesets are merged into `main`, GitHub Actions will:
 - Deployment workflow: `.github/workflows/deploy-registry.yml`
 - Target URL (GitHub Pages): `https://curiousbus.github.io/frontend-template-blocks/`
 - Registry entrypoint: `https://curiousbus.github.io/frontend-template-blocks/registry.json`
-- Example item URL: `https://curiousbus.github.io/frontend-template-blocks/r/cta-banner.json`
+- Example item URL: `https://curiousbus.github.io/frontend-template-blocks/r/hero-split.json`
 - Storybook URL (root): `https://curiousbus.github.io/frontend-template-blocks/`
 - One-time setup: enable GitHub Pages in repo settings (`Settings -> Pages`) and select GitHub Actions as the source.
 
@@ -70,6 +70,7 @@ After changesets are merged into `main`, GitHub Actions will:
 
 ```bash
 shadcn add https://curiousbus.github.io/frontend-template-blocks/r/cta-banner.json
+shadcn add https://curiousbus.github.io/frontend-template-blocks/r/hero-split.json
 ```
 
 3. Browse available item paths from: `https://curiousbus.github.io/frontend-template-blocks/registry.json`
@@ -77,7 +78,7 @@ shadcn add https://curiousbus.github.io/frontend-template-blocks/r/cta-banner.js
 ## Current Phase
 Phase 1 scaffold from issue #1 + issue #6:
 - workspace + registry generation pipeline
-- baseline active block: `cta-banner` (starter placeholders removed)
+- active blocks: `cta-banner`, `hero-split`
 - lint/typecheck/test/smoke script baseline
 - changesets + release/deploy workflows
 - Storybook + examples app + Playwright visual regression

@@ -2,7 +2,7 @@ import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { ROOT_DIR, SOURCE_DIR } from "./registry-utils.mjs";
 
-const SOURCE_FILES = ["cta-banner.tsx"];
+const SOURCE_FILES = ["cta-banner.tsx", "hero-split.tsx"];
 
 async function typecheck() {
   const indexPath = path.join(SOURCE_DIR, "index.ts");
@@ -22,7 +22,7 @@ async function typecheck() {
     }
   }
 
-  console.log(`Typecheck baseline passed for ${SOURCE_FILES.length} component.`);
+  console.log(`Typecheck baseline passed for ${SOURCE_FILES.length} components.`);
 }
 
 typecheck().catch((error) => {
