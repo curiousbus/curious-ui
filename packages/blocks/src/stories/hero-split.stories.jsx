@@ -3,7 +3,7 @@ import { HeroSplit } from "../hero-split";
 export default {
   title: "Blocks/Hero Split",
   component: HeroSplit,
-  tags: ["autodocs"]
+  tags: ["autodocs"],
 };
 
 export const Default = {
@@ -14,6 +14,10 @@ export const Default = {
       "Hero Split gives product teams a production-ready top section with clear messaging, strong actions, and supporting proof points.",
     primaryActionLabel: "Install Hero",
     secondaryActionLabel: "Explore Registry",
-    highlights: ["Works with shadcn registry", "Drop-in Tailwind styles", "Built for iterative customization"]
-  }
+    highlights: [
+      "Works with shadcn registry",
+      "Drop-in Tailwind styles",
+      "Built for iterative customization",
+    ],
+  },
 };

@@ -1,15 +1,15 @@
-import path from "node:path";
 import { execFile } from "node:child_process";
-import { promisify } from "node:util";
 import { mkdir, rm } from "node:fs/promises";
+import path from "node:path";
+import { promisify } from "node:util";
 import {
+  assertSourceFilesExist,
+  loadRegistryItems,
   REGISTRY_APP_DIR,
   REGISTRY_ROOT_FILE,
   ROOT_DIR,
-  loadRegistryItems,
   validateRegistryItemShape,
-  assertSourceFilesExist,
-  writeJson
+  writeJson,
 } from "./registry-utils.mjs";
 
 const execFileAsync = promisify(execFile);
@@ -19,8 +19,8 @@ function toBuildRegistryItem(item) {
     ...item,
     files: item.files.map((file) => ({
       ...file,
-      path: path.posix.join("packages/blocks", file.path)
-    }))
+      path: path.posix.join("packages/blocks", file.path),
+    })),
   };
 }
 
@@ -41,7 +41,7 @@ async function buildRegistry() {
     $schema: "https://ui.shadcn.com/schema/registry.json",
     name: "frontend-template-blocks",
     homepage: "https://github.com/curiousbus/frontend-template-blocks",
-    items
+    items,
   };
 
   // Keep a committed root registry manifest as shadcn build input.
@@ -54,7 +54,7 @@ async function buildRegistry() {
   await execFileAsync(
     "pnpm",
     ["exec", "shadcn", "build", "registry.json", "--output", "apps/registry/public/r"],
-    { cwd: ROOT_DIR }
+    { cwd: ROOT_DIR },
   );
 
   // Copy root registry entrypoint to static host output.

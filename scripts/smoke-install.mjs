@@ -1,14 +1,14 @@
-import { mkdtemp, readFile, mkdir, writeFile, rm } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import {
+  assertSourceFilesExist,
   BLOCKS_DIR,
+  ensureOutputDir,
+  loadRegistryItems,
   REGISTRY_OUTPUT_DIR,
   ROOT_DIR,
-  loadRegistryItems,
-  ensureOutputDir,
   validateRegistryItemShape,
-  assertSourceFilesExist
 } from "./registry-utils.mjs";
 
 async function smokeInstall() {
@@ -37,7 +37,9 @@ async function smokeInstall() {
       }
     }
 
-    console.log(`Smoke install passed for ${registryItems.length} items in ${path.relative(ROOT_DIR, tempRoot)}.`);
+    console.log(
+      `Smoke install passed for ${registryItems.length} items in ${path.relative(ROOT_DIR, tempRoot)}.`,
+    );
   } finally {
     await rm(tempRoot, { recursive: true, force: true });
   }

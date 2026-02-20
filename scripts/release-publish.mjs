@@ -19,7 +19,9 @@ async function releasePublish() {
   await run("pnpm", ["run", "build:registry"]);
 
   if (!process.env.NPM_TOKEN) {
-    console.log("NPM_TOKEN is not set. Skipping npm publish. Registry deployment still runs via GitHub Pages workflow.");
+    console.log(
+      "NPM_TOKEN is not set. Skipping npm publish. Registry deployment still runs via GitHub Pages workflow.",
+    );
     return;
   }
 

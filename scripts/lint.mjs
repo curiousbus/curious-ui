@@ -1,18 +1,18 @@
-import path from "node:path";
 import { existsSync } from "node:fs";
+import path from "node:path";
 import {
+  assertSourceFilesExist,
+  loadRegistryItems,
   REGISTRY_ROOT_FILE,
   ROOT_DIR,
-  loadRegistryItems,
   validateRegistryItemShape,
-  assertSourceFilesExist
 } from "./registry-utils.mjs";
 
 async function lint() {
   const requiredFiles = [
     path.join(ROOT_DIR, "pnpm-workspace.yaml"),
     path.join(ROOT_DIR, "package.json"),
-    REGISTRY_ROOT_FILE
+    REGISTRY_ROOT_FILE,
   ];
 
   for (const file of requiredFiles) {

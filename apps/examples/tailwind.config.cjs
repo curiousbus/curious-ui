@@ -5,6 +5,6 @@ module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,jsx,ts,tsx}",
-    "../../packages/blocks/src/**/*.{js,jsx,ts,tsx}"
-  ]
+    "../../packages/blocks/src/**/*.{js,jsx,ts,tsx}",
+  ],
 };

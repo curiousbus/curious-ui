@@ -1,5 +1,3 @@
-import * as React from "react";
-
 type HeroSplitProps = {
   eyebrow?: string;
   title: string;
@@ -17,7 +15,7 @@ export function HeroSplit({
   description,
   primaryActionLabel = "Get Started",
   secondaryActionLabel = "View Docs",
-  highlights = DEFAULT_HIGHLIGHTS
+  highlights = DEFAULT_HIGHLIGHTS,
 }: HeroSplitProps) {
   return (
     <section className="overflow-hidden rounded-3xl border bg-background">
@@ -26,13 +24,21 @@ export function HeroSplit({
           <p className="inline-flex rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary">
             {eyebrow}
           </p>
-          <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">{title}</h1>
+          <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+            {title}
+          </h1>
           <p className="max-w-xl text-base leading-7 text-muted-foreground">{description}</p>
           <div className="flex flex-wrap gap-3">
-            <button className="rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground">
+            <button
+              type="button"
+              className="rounded-lg bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground"
+            >
               {primaryActionLabel}
             </button>
-            <button className="rounded-lg border px-5 py-2.5 text-sm font-medium text-foreground">
+            <button
+              type="button"
+              className="rounded-lg border px-5 py-2.5 text-sm font-medium text-foreground"
+            >
               {secondaryActionLabel}
             </button>
           </div>
@@ -50,7 +56,9 @@ export function HeroSplit({
           </ul>
           <div className="mt-6 rounded-xl bg-background p-4 shadow-sm ring-1 ring-border/60">
             <p className="text-xs uppercase tracking-wide text-muted-foreground">Typical outcome</p>
-            <p className="mt-1 text-2xl font-semibold text-foreground">2x faster landing page assembly</p>
+            <p className="mt-1 text-2xl font-semibold text-foreground">
+              2x faster landing page assembly
+            </p>
           </div>
         </div>
       </div>

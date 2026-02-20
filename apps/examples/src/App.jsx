@@ -5,7 +5,9 @@ export function App() {
     <main className="mx-auto min-h-screen w-full max-w-6xl space-y-8 p-8">
       <div className="space-y-3">
         <h1 className="text-4xl font-semibold tracking-tight">Component Preview</h1>
-        <p className="text-muted-foreground">Production blocks currently available in this registry.</p>
+        <p className="text-muted-foreground">
+          Production blocks currently available in this registry.
+        </p>
       </div>
       <HeroSplit
         title="Build composable pages faster with real production blocks"
