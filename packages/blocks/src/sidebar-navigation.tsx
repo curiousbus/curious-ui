@@ -303,7 +303,7 @@ export function SidebarNavPanel({
                     const hasActiveChild = Boolean(
                       item.children?.some((child) => child.id === activeItemId),
                     );
-                    const isActive = activeItemId === item.id || hasActiveChild;
+                    const isItemActive = activeItemId === item.id;
                     const isSubmenuOpen = !collapsed && Boolean(expandedByItemId[item.id]);
 
                     return (
@@ -313,7 +313,7 @@ export function SidebarNavPanel({
                           className={cn(
                             "peer/menu-button relative flex h-8 w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm outline-hidden ring-sidebar-ring transition-[color,background-color,width,padding,height]",
                             "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground",
-                            isActive && "font-medium text-sidebar-primary",
+                            (isItemActive || hasActiveChild) && "font-medium text-sidebar-primary",
                             collapsed && "size-8 justify-center p-2",
                           )}
                           onClick={() => {
@@ -329,7 +329,7 @@ export function SidebarNavPanel({
                           }
                           whileTap={shouldReduceMotion ? undefined : { scale: 0.97 }}
                         >
-                          {isActive ? (
+                          {isItemActive ? (
                             <motion.span
                               layoutId={`active-item-${highlightLayoutId}`}
                               layout
