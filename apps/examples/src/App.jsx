@@ -64,7 +64,7 @@ export function App() {
       </div>
 
       <SidebarNavProvider defaultOpen={true} defaultCollapsed={false}>
-        <div className="flex min-h-[620px] overflow-hidden rounded-2xl border bg-background shadow-sm">
+        <div className="flex min-h-[620px] overflow-hidden rounded-lg border bg-background">
           <SidebarNavPanel
             groups={sidebarGroups}
             defaultActiveItemId="projects-active"
@@ -72,16 +72,18 @@ export function App() {
             subtitle="Main Navigation"
           />
 
-          <section className="flex flex-1 flex-col bg-[linear-gradient(180deg,hsl(var(--background)),hsl(var(--muted)/0.35))]">
-            <div className="flex flex-wrap items-center gap-2 border-b border-border/70 px-4 py-3">
+          <section className="flex flex-1 flex-col bg-background">
+            <div className="flex flex-wrap items-center gap-2 border-b px-4 py-3">
               <SidebarNavVisibilityTrigger />
               <SidebarNavCollapseTrigger />
             </div>
             <div className="space-y-3 p-6">
-              <h2 className="text-2xl font-semibold tracking-tight">Refined Sidebar Navigation</h2>
+              <h2 className="text-2xl font-semibold tracking-tight">
+                Shadcn-Like Sidebar Navigation
+              </h2>
               <p className="max-w-2xl text-sm leading-6 text-muted-foreground">
-                Elevated visual hierarchy with grouped navigation, icon-first submenu entries,
-                icon-only collapsed mode, offcanvas visibility, and motion-driven active layout.
+                Uses shadcn-style sizing and spacing with grouped menus, submenu icons,
+                icon-collapse mode, and animated active highlight movement.
               </p>
             </div>
           </section>
