@@ -53,10 +53,128 @@ const groups = [
   },
 ];
 
+const sidebarIntegrationDocs = String.raw`
+## Overview
+
+This block is intentionally router-agnostic. You control navigation by wiring:
+
+1. \`activeItemId\` from current route
+2. \`onActiveItemChange\` to router navigate
+
+The recommended pattern is to keep a single \`id <-> path\` mapping table.
+
+## React Router Integration
+
+\`\`\`tsx
+import { useMemo } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { SidebarNavPanel, SidebarNavProvider } from "@ftb/blocks";
+
+const ROUTE_TO_ID: Record<string, string> = {
+  "/": "overview",
+  "/projects/active": "projects-active",
+  "/projects/archived": "projects-archived",
+  "/projects/favorites": "projects-favorites",
+  "/reports": "reports",
+  "/members": "members",
+  "/settings": "settings",
+};
+
+const ID_TO_ROUTE = Object.fromEntries(
+  Object.entries(ROUTE_TO_ID).map(([path, id]) => [id, path]),
+) as Record<string, string>;
+
+export function AppSidebar() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const activeItemId = useMemo(() => {
+    return ROUTE_TO_ID[location.pathname] ?? "overview";
+  }, [location.pathname]);
+
+  return (
+    <SidebarNavProvider defaultOpen defaultCollapsed={false}>
+      <SidebarNavPanel
+        groups={groups}
+        activeItemId={activeItemId}
+        onActiveItemChange={(id) => {
+          const to = ID_TO_ROUTE[id];
+          if (to && to !== location.pathname) {
+            navigate(to);
+          }
+        }}
+        title="Acme Console"
+        subtitle="Main Navigation"
+      />
+    </SidebarNavProvider>
+  );
+}
+\`\`\`
+
+## TanStack Start Integration
+
+\`\`\`tsx
+import { useMemo } from "react";
+import { useLocation, useNavigate } from "@tanstack/react-router";
+import { SidebarNavPanel, SidebarNavProvider } from "@ftb/blocks";
+
+const ROUTE_TO_ID: Record<string, string> = {
+  "/": "overview",
+  "/projects/active": "projects-active",
+  "/projects/archived": "projects-archived",
+  "/projects/favorites": "projects-favorites",
+  "/reports": "reports",
+  "/members": "members",
+  "/settings": "settings",
+};
+
+const ID_TO_ROUTE = Object.fromEntries(
+  Object.entries(ROUTE_TO_ID).map(([path, id]) => [id, path]),
+) as Record<string, string>;
+
+export function AppSidebar() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const activeItemId = useMemo(() => {
+    return ROUTE_TO_ID[location.pathname] ?? "overview";
+  }, [location.pathname]);
+
+  return (
+    <SidebarNavProvider defaultOpen defaultCollapsed={false}>
+      <SidebarNavPanel
+        groups={groups}
+        activeItemId={activeItemId}
+        onActiveItemChange={(id) => {
+          const to = ID_TO_ROUTE[id];
+          if (to && to !== location.pathname) {
+            navigate({ to });
+          }
+        }}
+      />
+    </SidebarNavProvider>
+  );
+}
+\`\`\`
+
+## Notes
+
+- Use \`activeItemId\` (controlled mode) in real apps so route and sidebar stay in sync.
+- Keep \`defaultActiveItemId\` only for static demos or local prototypes.
+- For nested routes, map both parent and child paths to explicit item IDs.
+`;
+
 export default {
   title: "Blocks/Sidebar Navigation",
   component: SidebarNavPanel,
   tags: ["autodocs"],
+  parameters: {
+    docs: {
+      description: {
+        component: sidebarIntegrationDocs,
+      },
+    },
+  },
 };
 
 export const Default = {
