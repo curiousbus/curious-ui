@@ -1,5 +1,12 @@
-/* biome-ignore lint/correctness/noUnusedImports: Storybook build requires React in scope for this story module. */
-import * as React from "react";
+import {
+  Controls,
+  Description,
+  Markdown,
+  Primary,
+  Stories as StoriesBlock,
+  Subtitle,
+  Title,
+} from "@storybook/addon-docs/blocks";
 import {
   SidebarNavCollapseTrigger,
   SidebarNavPanel,
@@ -170,9 +177,17 @@ export default {
   tags: ["autodocs"],
   parameters: {
     docs: {
-      description: {
-        component: sidebarIntegrationDocs,
-      },
+      page: () => (
+        <>
+          <Title />
+          <Subtitle />
+          <Description />
+          <Primary />
+          <Controls />
+          <Markdown>{sidebarIntegrationDocs}</Markdown>
+          <StoriesBlock />
+        </>
+      ),
     },
   },
 };
