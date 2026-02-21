@@ -5,7 +5,7 @@ import {
   SidebarNavPanel,
   SidebarNavProvider,
   SidebarNavVisibilityTrigger,
-} from "@ftb/blocks";
+} from "@curious-ui/blocks";
 
 const sidebarGroups = [
   {

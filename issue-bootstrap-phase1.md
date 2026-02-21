@@ -32,7 +32,7 @@
 - [ ] 建立至少 6 个 `registry-item.json`，每个 item 完整声明依赖与文件映射。
 - [ ] 跑通 `shadcn build`，确保生成 `public/r`。
 - [ ] 本地验证 `shadcn add <registry-url>/<item>.json` 可安装。
-- [ ] 预留 namespace 结构（如 `@frontend-template-blocks/...`）。
+- [ ] 预留 namespace 结构（如 `@curious-ui/...`）。
 
 ### 3) Block/Template 设计约束
 - [ ] 每个 block 必须：

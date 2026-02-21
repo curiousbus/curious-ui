@@ -39,8 +39,8 @@ async function buildRegistry() {
 
   const registry = {
     $schema: "https://ui.shadcn.com/schema/registry.json",
-    name: "frontend-template-blocks",
-    homepage: "https://github.com/curiousbus/frontend-template-blocks",
+    name: "curious-ui",
+    homepage: "https://github.com/curiousbus/curious-ui",
     items,
   };
 

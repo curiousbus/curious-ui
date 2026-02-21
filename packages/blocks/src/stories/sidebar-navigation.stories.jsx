@@ -76,7 +76,7 @@ const sidebarOverviewDocs = [
 const reactRouterCode = [
   'import { useMemo } from "react";',
   'import { useLocation, useNavigate } from "react-router-dom";',
-  'import { SidebarNavPanel, SidebarNavProvider } from "@ftb/blocks";',
+  'import { SidebarNavPanel, SidebarNavProvider } from "@curious-ui/blocks";',
   "",
   "const ROUTE_TO_ID: Record<string, string> = {",
   '  "/": "overview",',
@@ -122,7 +122,7 @@ const reactRouterCode = [
 const tanstackStartCode = [
   'import { useMemo } from "react";',
   'import { useLocation, useNavigate } from "@tanstack/react-router";',
-  'import { SidebarNavPanel, SidebarNavProvider } from "@ftb/blocks";',
+  'import { SidebarNavPanel, SidebarNavProvider } from "@curious-ui/blocks";',
   "",
   "const ROUTE_TO_ID: Record<string, string> = {",
   '  "/": "overview",',

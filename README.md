@@ -1,4 +1,4 @@
-# frontend-template-blocks
+# curious-ui
 
 Reusable frontend blocks/templates powered by `shadcn` registry + Base UI composition.
 
@@ -103,14 +103,14 @@ Commit examples:
 2. Install block by item URL:
 
 ```bash
-shadcn add https://curiousbus.github.io/frontend-template-blocks/r/cta-banner.json
-shadcn add https://curiousbus.github.io/frontend-template-blocks/r/hero-split.json
-shadcn add https://curiousbus.github.io/frontend-template-blocks/r/sidebar-navigation.json
-shadcn add https://curiousbus.github.io/frontend-template-blocks/r/auth-sign-in.json
+shadcn add https://curiousbus.github.io/curious-ui/r/cta-banner.json
+shadcn add https://curiousbus.github.io/curious-ui/r/hero-split.json
+shadcn add https://curiousbus.github.io/curious-ui/r/sidebar-navigation.json
+shadcn add https://curiousbus.github.io/curious-ui/r/auth-sign-in.json
 ```
 
 3. Discover all items:
-- `https://curiousbus.github.io/frontend-template-blocks/registry.json`
+- `https://curiousbus.github.io/curious-ui/registry.json`
 
 ## Hosting and Release
 - Deploy workflow: `.github/workflows/deploy-registry.yml`
@@ -119,15 +119,15 @@ shadcn add https://curiousbus.github.io/frontend-template-blocks/r/auth-sign-in.
 - Release workflow: `.github/workflows/release.yml`
 
 GitHub Pages endpoints:
-- Site root (Storybook): `https://curiousbus.github.io/frontend-template-blocks/`
-- Registry entrypoint: `https://curiousbus.github.io/frontend-template-blocks/registry.json`
-- Registry items: `https://curiousbus.github.io/frontend-template-blocks/r/<item>.json`
+- Site root (Storybook): `https://curiousbus.github.io/curious-ui/`
+- Registry entrypoint: `https://curiousbus.github.io/curious-ui/registry.json`
+- Registry items: `https://curiousbus.github.io/curious-ui/r/<item>.json`
 
 ## Auth Sign-In (Composable + Better Auth)
 Install:
 
 ```bash
-shadcn add https://curiousbus.github.io/frontend-template-blocks/r/auth-sign-in.json
+shadcn add https://curiousbus.github.io/curious-ui/r/auth-sign-in.json
 ```
 
 Composable usage:
@@ -143,7 +143,7 @@ import {
   AuthSeparator,
   AuthEmailPasswordForm,
   AuthFooter,
-} from "@ftb/blocks";
+} from "@curious-ui/blocks";
 
 export function SignInView() {
   return (

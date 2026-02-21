@@ -1,5 +1,5 @@
 {
-  "name": "@ftb/examples",
+  "name": "@curious-ui/examples",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -9,7 +9,7 @@
     "preview": "vite preview --host"
   },
   "dependencies": {
-    "@ftb/blocks": "workspace:*",
+    "@curious-ui/blocks": "workspace:*",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   }

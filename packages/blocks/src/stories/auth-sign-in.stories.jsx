@@ -45,7 +45,7 @@ const compositionExampleCode = [
   "  AuthSeparator,",
   "  AuthEmailPasswordForm,",
   "  AuthFooter,",
-  '} from "@ftb/blocks";',
+  '} from "@curious-ui/blocks";',
   "",
   "export function SignIn() {",
   "  return (",

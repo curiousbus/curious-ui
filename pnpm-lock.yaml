@@ -74,7 +74,7 @@ importers:
 
   apps/examples:
     dependencies:
-      '@ftb/blocks':
+      '@curious-ui/blocks':
         specifier: workspace:*
         version: link:../../packages/blocks
       react:
