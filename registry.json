@@ -5,6 +5,26 @@
   "items": [
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "auth-sign-in",
+      "type": "registry:block",
+      "title": "Auth Sign In",
+      "description": "Composable shadcn-style sign-in block with social providers, magic link, and email/password forms.",
+      "meta": {
+        "category": "authentication",
+        "a11y": "Semantic form controls, visible focus states, and reduced-motion-aware interactions."
+      },
+      "dependencies": ["motion"],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "packages/blocks/src/auth-sign-in.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/auth-sign-in.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
       "name": "cta-banner",
       "type": "registry:block",
       "title": "CTA Banner",

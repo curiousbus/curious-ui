@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 const STORIES = [
+  { id: "blocks-auth-sign-in--fully-composed", name: "auth-sign-in" },
   { id: "blocks-cta-banner--default", name: "cta-banner" },
   { id: "blocks-hero-split--default", name: "hero-split" },
   { id: "blocks-sidebar-navigation--default", name: "sidebar-navigation" },

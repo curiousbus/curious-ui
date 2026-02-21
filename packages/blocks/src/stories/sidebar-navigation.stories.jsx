@@ -7,6 +7,7 @@ import {
   Subtitle,
   Title,
 } from "@storybook/addon-docs/blocks";
+import * as React from "react";
 import {
   SidebarNavCollapseTrigger,
   SidebarNavPanel,
@@ -178,7 +179,7 @@ export default {
   parameters: {
     docs: {
       page: () => (
-        <>
+        <React.Fragment>
           <Title />
           <Subtitle />
           <Description />
@@ -186,7 +187,7 @@ export default {
           <Controls />
           <Markdown>{sidebarIntegrationDocs}</Markdown>
           <StoriesBlock />
-        </>
+        </React.Fragment>
       ),
     },
   },
