@@ -3,6 +3,7 @@ import {
   Description,
   Markdown,
   Primary,
+  Source,
   Stories as StoriesBlock,
   Subtitle,
   Title,
@@ -23,7 +24,7 @@ import {
   AuthXButton,
 } from "../auth-sign-in";
 
-const integrationDocs = [
+const overviewDocs = [
   "## Overview",
   "",
   "This block is intentionally **composable + transport-agnostic**:",
@@ -31,10 +32,9 @@ const integrationDocs = [
   "- UI components only collect input and fire callbacks.",
   "- You can include/exclude any login method (social, magic link, password) without patching internals.",
   "- Better Auth integration stays in your app layer.",
-  "",
-  "## Composition Example",
-  "",
-  "```tsx",
+].join("\n");
+
+const compositionExampleCode = [
   "import {",
   "  AuthSignInCard,",
   "  AuthSignInHeader,",
@@ -75,11 +75,9 @@ const integrationDocs = [
   "    </AuthSignInCard>",
   "  );",
   "}",
-  "```",
-  "",
-  "## Better Auth Client Integration",
-  "",
-  "```tsx",
+].join("\n");
+
+const betterAuthClientCode = [
   'import { createAuthClient } from "better-auth/react";',
   "",
   "const authClient = createAuthClient();",
@@ -116,11 +114,9 @@ const integrationDocs = [
   "    })",
   "  }",
   "/>;",
-  "```",
-  "",
-  "## Better Auth Server Setup (example)",
-  "",
-  "```ts",
+].join("\n");
+
+const betterAuthServerCode = [
   'import { betterAuth } from "better-auth";',
   'import { magicLink } from "better-auth/plugins";',
   "",
@@ -154,7 +150,6 @@ const integrationDocs = [
   "    }),",
   "  ],",
   "});",
-  "```",
 ].join("\n");
 
 export default {
@@ -170,7 +165,13 @@ export default {
           <Description />
           <Primary />
           <Controls />
-          <Markdown>{integrationDocs}</Markdown>
+          <Markdown>{overviewDocs}</Markdown>
+          <Markdown>{"## Composition Example"}</Markdown>
+          <Source code={compositionExampleCode} language="tsx" />
+          <Markdown>{"## Better Auth Client Integration"}</Markdown>
+          <Source code={betterAuthClientCode} language="tsx" />
+          <Markdown>{"## Better Auth Server Setup (example)"}</Markdown>
+          <Source code={betterAuthServerCode} language="ts" />
           <StoriesBlock />
         </>
       ),
