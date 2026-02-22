@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "saas-kpi-grid",
+  "type": "registry:block",
+  "title": "SaaS KPI Grid",
+  "description": "Analytics KPI cards for SaaS dashboards with trend indicators and sparklines.",
+  "meta": {
+    "category": "analytics",
+    "a11y": "Semantic section headings and numeric values with tabular alignment."
+  },
+  "dependencies": ["motion"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/saas-kpi-grid.tsx",
+      "type": "registry:component",
+      "target": "components/blocks/saas-kpi-grid.tsx"
+    }
+  ]
+}

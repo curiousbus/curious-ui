@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "saas-audit-timeline",
+  "type": "registry:block",
+  "title": "SaaS Audit Timeline",
+  "description": "Chronological audit event timeline for security and compliance visibility.",
+  "meta": {
+    "category": "security",
+    "a11y": "Ordered timeline semantics and contrast-safe severity indicators."
+  },
+  "dependencies": ["motion"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/saas-audit-timeline.tsx",
+      "type": "registry:component",
+      "target": "components/blocks/saas-audit-timeline.tsx"
+    }
+  ]
+}
