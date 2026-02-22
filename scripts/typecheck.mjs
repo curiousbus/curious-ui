@@ -8,14 +8,6 @@ const SOURCE_FILES = [
   "cta-banner.tsx",
   "data-table.tsx",
   "hero-split.tsx",
-  "saas-audit-timeline.tsx",
-  "saas-billing-overview.tsx",
-  "saas-command-center.tsx",
-  "saas-integrations-grid.tsx",
-  "saas-kpi-grid.tsx",
-  "saas-notification-inbox.tsx",
-  "saas-settings-sections.tsx",
-  "saas-team-roster.tsx",
   "sidebar-navigation.tsx",
 ];
 
