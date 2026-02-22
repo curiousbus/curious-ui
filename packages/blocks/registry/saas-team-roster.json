@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "saas-team-roster",
+  "type": "registry:block",
+  "title": "SaaS Team Roster",
+  "description": "Team access roster for member lifecycle, role, and security coverage.",
+  "meta": {
+    "category": "team-management",
+    "a11y": "Accessible team actions and status labels for user lifecycle state."
+  },
+  "dependencies": ["motion"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/saas-team-roster.tsx",
+      "type": "registry:component",
+      "target": "components/blocks/saas-team-roster.tsx"
+    }
+  ]
+}

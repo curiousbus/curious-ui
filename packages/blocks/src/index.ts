@@ -55,6 +55,30 @@ export {
   TrashIcon,
 } from "./data-table";
 export { HeroSplit } from "./hero-split";
+export type { SaasAuditEvent, SaasAuditSeverity } from "./saas-audit-timeline";
+export { SaasAuditTimeline } from "./saas-audit-timeline";
+export type { SaasInvoiceSummary, SaasUsageItem } from "./saas-billing-overview";
+export { SaasBillingOverview } from "./saas-billing-overview";
+export type { SaasCommandAction } from "./saas-command-center";
+export { ActionIcon as SaasCommandActionIcon, SaasCommandCenter } from "./saas-command-center";
+export type { SaasIntegration, SaasIntegrationStatus } from "./saas-integrations-grid";
+export {
+  IntegrationIcon as SaasIntegrationIcon,
+  SaasIntegrationsGrid,
+} from "./saas-integrations-grid";
+export type { SaasKpiMetric, SaasKpiTone, SaasKpiTrend } from "./saas-kpi-grid";
+export {
+  SaasKpiGrid,
+  TrendDownIcon as SaasTrendDownIcon,
+  TrendFlatIcon as SaasTrendFlatIcon,
+  TrendUpIcon as SaasTrendUpIcon,
+} from "./saas-kpi-grid";
+export type { SaasNotification, SaasNotificationPriority } from "./saas-notification-inbox";
+export { SaasNotificationInbox } from "./saas-notification-inbox";
+export type { SaasSettingSection, SaasSettingSectionStatus } from "./saas-settings-sections";
+export { SaasSettingsSections } from "./saas-settings-sections";
+export type { SaasMemberStatus, SaasTeamMember } from "./saas-team-roster";
+export { SaasTeamRoster } from "./saas-team-roster";
 export type { SidebarNavGroup, SidebarNavItem } from "./sidebar-navigation";
 export {
   SidebarNavCollapseTrigger,

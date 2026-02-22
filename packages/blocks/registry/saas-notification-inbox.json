@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "saas-notification-inbox",
+  "type": "registry:block",
+  "title": "SaaS Notification Inbox",
+  "description": "Filtered operations inbox for SaaS notifications, incidents, and billing events.",
+  "meta": {
+    "category": "operations",
+    "a11y": "Filter controls and clear read state labels for notification triage."
+  },
+  "dependencies": ["motion"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/saas-notification-inbox.tsx",
+      "type": "registry:component",
+      "target": "components/blocks/saas-notification-inbox.tsx"
+    }
+  ]
+}
