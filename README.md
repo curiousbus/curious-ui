@@ -110,14 +110,6 @@ shadcn add https://curiousbus.github.io/curious-ui/r/sidebar-navigation.json
 shadcn add https://curiousbus.github.io/curious-ui/r/auth-sign-in.json
 shadcn add https://curiousbus.github.io/curious-ui/r/auth-sign-up.json
 shadcn add https://curiousbus.github.io/curious-ui/r/data-table.json
-shadcn add https://curiousbus.github.io/curious-ui/r/saas-kpi-grid.json
-shadcn add https://curiousbus.github.io/curious-ui/r/saas-command-center.json
-shadcn add https://curiousbus.github.io/curious-ui/r/saas-billing-overview.json
-shadcn add https://curiousbus.github.io/curious-ui/r/saas-team-roster.json
-shadcn add https://curiousbus.github.io/curious-ui/r/saas-notification-inbox.json
-shadcn add https://curiousbus.github.io/curious-ui/r/saas-audit-timeline.json
-shadcn add https://curiousbus.github.io/curious-ui/r/saas-integrations-grid.json
-shadcn add https://curiousbus.github.io/curious-ui/r/saas-settings-sections.json
 ```
 
 3. Discover all items:
@@ -298,7 +290,3 @@ export function UsersTable() {
   );
 }
 ```
-
-## SaaS Backoffice Block Pack
-- Includes KPI, command center, billing overview, team roster, notification inbox, audit timeline, integrations grid, and settings sections.
-- Architecture + interaction design notes: `docs/saas-backoffice-block-system-design.md`
