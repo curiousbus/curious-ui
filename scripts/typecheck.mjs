@@ -4,7 +4,9 @@ import { ROOT_DIR, SOURCE_DIR } from "./registry-utils.mjs";
 
 const SOURCE_FILES = [
   "auth-sign-in.tsx",
+  "auth-sign-up.tsx",
   "cta-banner.tsx",
+  "data-table.tsx",
   "hero-split.tsx",
   "sidebar-navigation.tsx",
 ];

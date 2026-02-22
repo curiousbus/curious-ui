@@ -18,6 +18,7 @@ Reusable frontend blocks/templates powered by `shadcn` registry + Base UI compos
 - `apps/examples`: local Vite app for block preview and manual QA.
 - `packages/blocks`: block source code + registry item manifests.
 - `scripts`: quality gates, registry build, smoke install, release helpers.
+- `docs`: integration and interface design notes.
 - `registry.json`: generated root shadcn registry manifest.
 
 ## First-Time Setup
@@ -107,6 +108,8 @@ shadcn add https://curiousbus.github.io/curious-ui/r/cta-banner.json
 shadcn add https://curiousbus.github.io/curious-ui/r/hero-split.json
 shadcn add https://curiousbus.github.io/curious-ui/r/sidebar-navigation.json
 shadcn add https://curiousbus.github.io/curious-ui/r/auth-sign-in.json
+shadcn add https://curiousbus.github.io/curious-ui/r/auth-sign-up.json
+shadcn add https://curiousbus.github.io/curious-ui/r/data-table.json
 ```
 
 3. Discover all items:
@@ -182,4 +185,108 @@ authClient.signIn.social({ provider: "google", callbackURL: "/dashboard" });
 authClient.signIn.social({ provider: "twitter", callbackURL: "/dashboard" }); // X
 authClient.signIn.email({ email, password });
 authClient.signIn.magicLink({ email, callbackURL: "/dashboard" });
+```
+
+## Auth Sign-Up (Registration Flow)
+Install:
+
+```bash
+shadcn add https://curiousbus.github.io/curious-ui/r/auth-sign-up.json
+```
+
+```tsx
+import {
+  AuthSignUpCard,
+  AuthSignUpHeader,
+  AuthSignUpContent,
+  AuthSignUpForm,
+  AuthSignUpFooter,
+} from "@curious-ui/blocks";
+
+export function RegisterView() {
+  return (
+    <AuthSignUpCard>
+      <AuthSignUpHeader
+        title="Create account"
+        description="Register with email/password and validate before submit."
+      />
+      <AuthSignUpContent className="grid gap-6">
+        <AuthSignUpForm
+          onSubmitRegistration={async (payload) => {
+            await fetch("/api/register", {
+              method: "POST",
+              headers: { "content-type": "application/json" },
+              body: JSON.stringify(payload),
+            });
+          }}
+        />
+        <AuthSignUpFooter>
+          Already have an account?{" "}
+          <a href="/sign-in" className="underline underline-offset-4">
+            Sign in
+          </a>
+        </AuthSignUpFooter>
+      </AuthSignUpContent>
+    </AuthSignUpCard>
+  );
+}
+```
+
+## Data Table (API Search + Sort + Pagination + Row Actions)
+Install:
+
+```bash
+shadcn add https://curiousbus.github.io/curious-ui/r/data-table.json
+```
+
+```tsx
+import type {
+  DataTableColumn,
+  DataTableFetcher,
+  DataTablePageResult,
+  DataTableQuery,
+} from "@curious-ui/blocks";
+import { DataTable } from "@curious-ui/blocks";
+
+type UserRow = {
+  id: number;
+  name: string;
+  email: string;
+  status: string;
+};
+
+const fetchUsers: DataTableFetcher<UserRow> = async (query, { signal }) => {
+  const params = new URLSearchParams({
+    q: query.search,
+    page: String(query.page),
+    pageSize: String(query.pageSize),
+    sortField: query.sort?.field ?? "",
+    sortDirection: query.sort?.direction ?? "",
+  });
+
+  const response = await fetch(`/api/users?${params.toString()}`, { signal });
+  if (!response.ok) throw new Error("Failed to load users");
+  return (await response.json()) as DataTablePageResult<UserRow>;
+};
+
+const columns: DataTableColumn<UserRow>[] = [
+  { id: "name", header: "Name", accessorKey: "name", sortable: true },
+  { id: "email", header: "Email", accessorKey: "email", sortable: true },
+  { id: "status", header: "Status", accessorKey: "status", sortable: true },
+];
+
+export function UsersTable() {
+  return (
+    <DataTable
+      columns={columns}
+      fetchPage={fetchUsers}
+      onEditRow={async (row) => {
+        await fetch(`/api/users/${row.id}`, { method: "PATCH" });
+      }}
+      onDeleteRow={async (row) => {
+        await fetch(`/api/users/${row.id}`, { method: "DELETE" });
+      }}
+    />
+  );
+}
 ```

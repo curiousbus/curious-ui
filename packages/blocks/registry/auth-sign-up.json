@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "auth-sign-up",
+  "type": "registry:block",
+  "title": "Auth Sign Up",
+  "description": "Composable sign-up block with field-level validation, async submit handling, and API-friendly payload callbacks.",
+  "meta": {
+    "category": "authentication",
+    "a11y": "Semantic labels, field-level error messages, and keyboard-friendly controls."
+  },
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/auth-sign-up.tsx",
+      "type": "registry:component",
+      "target": "components/blocks/auth-sign-up.tsx"
+    }
+  ]
+}

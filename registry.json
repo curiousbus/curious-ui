@@ -25,6 +25,26 @@
     },
     {
       "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "auth-sign-up",
+      "type": "registry:block",
+      "title": "Auth Sign Up",
+      "description": "Composable sign-up block with field-level validation, async submit handling, and API-friendly payload callbacks.",
+      "meta": {
+        "category": "authentication",
+        "a11y": "Semantic labels, field-level error messages, and keyboard-friendly controls."
+      },
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "packages/blocks/src/auth-sign-up.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/auth-sign-up.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
       "name": "cta-banner",
       "type": "registry:block",
       "title": "CTA Banner",
@@ -40,6 +60,26 @@
           "path": "packages/blocks/src/cta-banner.tsx",
           "type": "registry:component",
           "target": "components/blocks/cta-banner.tsx"
+        }
+      ]
+    },
+    {
+      "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+      "name": "data-table",
+      "type": "registry:block",
+      "title": "Data Table",
+      "description": "Server-driven data table with debounced search, sorting, pagination, iconized row actions, and edit/delete integration hooks.",
+      "meta": {
+        "category": "data-display",
+        "a11y": "Keyboard-accessible controls, icon action labels, and inline error states for row actions."
+      },
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "packages/blocks/src/data-table.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/data-table.tsx"
         }
       ]
     },
