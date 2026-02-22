@@ -1,0 +1,20 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "data-table",
+  "type": "registry:block",
+  "title": "Data Table",
+  "description": "Server-driven data table with debounced search, sorting, pagination, iconized row actions, and edit/delete integration hooks.",
+  "meta": {
+    "category": "data-display",
+    "a11y": "Keyboard-accessible controls, icon action labels, and inline error states for row actions."
+  },
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "src/data-table.tsx",
+      "type": "registry:component",
+      "target": "components/blocks/data-table.tsx"
+    }
+  ]
+}

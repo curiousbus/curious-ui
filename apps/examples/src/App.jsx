@@ -1,11 +1,18 @@
 import {
+  AuthSignUpCard,
+  AuthSignUpContent,
+  AuthSignUpFooter,
+  AuthSignUpForm,
+  AuthSignUpHeader,
   CtaBanner,
+  DataTable,
   HeroSplit,
   SidebarNavCollapseTrigger,
   SidebarNavPanel,
   SidebarNavProvider,
   SidebarNavVisibilityTrigger,
 } from "@curious-ui/blocks";
+import * as React from "react";
 
 const sidebarGroups = [
   {
@@ -53,7 +60,135 @@ const sidebarGroups = [
   },
 ];
 
+function createTableRows(count = 96) {
+  const regions = ["APAC", "EMEA", "NA", "LATAM"];
+  const statuses = ["active", "paused", "invited"];
+
+  return Array.from({ length: count }).map((_, index) => {
+    const id = index + 1;
+    return {
+      id,
+      name: `User ${id}`,
+      email: `user${id}@example.com`,
+      region: regions[index % regions.length],
+      status: statuses[index % statuses.length],
+      seats: 1 + (index % 8),
+    };
+  });
+}
+
+function getStatusClass(status) {
+  if (status === "active") {
+    return "bg-emerald-500/10 text-emerald-700";
+  }
+  if (status === "paused") {
+    return "bg-amber-500/10 text-amber-700";
+  }
+  return "bg-slate-500/10 text-slate-700";
+}
+
 export function App() {
+  const [registrationMessage, setRegistrationMessage] = React.useState("");
+  const [tableRows, setTableRows] = React.useState(() => createTableRows());
+
+  const tableColumns = React.useMemo(
+    () => [
+      {
+        id: "name",
+        header: "Name",
+        accessorKey: "name",
+        sortable: true,
+      },
+      {
+        id: "email",
+        header: "Email",
+        accessorKey: "email",
+        sortable: true,
+      },
+      {
+        id: "region",
+        header: "Region",
+        accessorKey: "region",
+        sortable: true,
+        align: "center",
+      },
+      {
+        id: "status",
+        header: "Status",
+        accessorKey: "status",
+        sortable: true,
+        cell: (row) => (
+          <span
+            className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${getStatusClass(row.status)}`}
+          >
+            {row.status}
+          </span>
+        ),
+      },
+      {
+        id: "seats",
+        header: "Seats",
+        accessorKey: "seats",
+        sortable: true,
+        align: "right",
+      },
+    ],
+    [],
+  );
+
+  const fetchRows = React.useCallback(
+    async (query, { signal }) => {
+      await new Promise((resolve, reject) => {
+        const timeoutId = window.setTimeout(resolve, 180);
+        signal.addEventListener(
+          "abort",
+          () => {
+            window.clearTimeout(timeoutId);
+            reject(new DOMException("Aborted", "AbortError"));
+          },
+          { once: true },
+        );
+      });
+
+      const normalizedSearch = query.search.trim().toLowerCase();
+      let filteredRows = tableRows;
+
+      if (normalizedSearch) {
+        filteredRows = tableRows.filter((row) => {
+          return (
+            row.name.toLowerCase().includes(normalizedSearch) ||
+            row.email.toLowerCase().includes(normalizedSearch) ||
+            row.region.toLowerCase().includes(normalizedSearch) ||
+            row.status.toLowerCase().includes(normalizedSearch)
+          );
+        });
+      }
+
+      if (query.sort?.field) {
+        filteredRows = [...filteredRows].sort((left, right) => {
+          const leftValue = String(left[query.sort.field] ?? "");
+          const rightValue = String(right[query.sort.field] ?? "");
+          const compared = leftValue.localeCompare(rightValue, undefined, {
+            numeric: true,
+            sensitivity: "base",
+          });
+          return query.sort.direction === "asc" ? compared : -compared;
+        });
+      }
+
+      const start = (query.page - 1) * query.pageSize;
+      const end = start + query.pageSize;
+
+      return {
+        rows: filteredRows.slice(start, end),
+        total: filteredRows.length,
+        page: query.page,
+        pageSize: query.pageSize,
+      };
+    },
+    [tableRows],
+  );
+
   return (
     <main className="mx-auto min-h-screen w-full max-w-6xl space-y-8 p-8">
       <div className="space-y-3">
@@ -104,6 +239,122 @@ export function App() {
           actionLabel="Start Building"
         />
       </div>
+
+      <section className="grid gap-6 xl:grid-cols-[380px,1fr]">
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <h2 className="text-2xl font-semibold tracking-tight text-balance">
+              Registration Block
+            </h2>
+            <p className="text-sm text-muted-foreground text-pretty">
+              API-agnostic sign-up form with field-level validation and async submit support.
+            </p>
+          </div>
+
+          <AuthSignUpCard>
+            <AuthSignUpHeader
+              title="Create account"
+              description="Register with your work email to create a new workspace."
+              align="left"
+            />
+            <AuthSignUpContent className="grid gap-5">
+              <AuthSignUpForm
+                submitLabel="Create workspace"
+                validate={(payload) => {
+                  if (!payload.email.endsWith("@example.com")) {
+                    return { email: "Use @example.com for this preview." };
+                  }
+
+                  if (payload.password.length < 8) {
+                    return { password: "Use at least 8 characters." };
+                  }
+
+                  return {};
+                }}
+                onSubmitRegistration={async (payload) => {
+                  await new Promise((resolve) => {
+                    window.setTimeout(resolve, 260);
+                  });
+                  setRegistrationMessage(`Registered ${payload.email}`);
+                }}
+              />
+              <AuthSignUpFooter>
+                Already registered?{" "}
+                <a href="/sign-in" className="underline underline-offset-4">
+                  Sign in
+                </a>
+              </AuthSignUpFooter>
+            </AuthSignUpContent>
+          </AuthSignUpCard>
+
+          {registrationMessage ? (
+            <p className="text-sm text-muted-foreground">{registrationMessage}</p>
+          ) : null}
+        </div>
+
+        <div className="space-y-3">
+          <h2 className="text-2xl font-semibold tracking-tight text-balance">Data Table Block</h2>
+          <DataTable
+            title="Organization Users"
+            description="Server-driven query contract: search + sort + pagination + icon actions + edit/delete."
+            columns={tableColumns}
+            fetchPage={fetchRows}
+            searchPlaceholder="Search by name, email, region, status"
+            initialQuery={{
+              pageSize: 8,
+              sort: { field: "name", direction: "asc" },
+            }}
+            rowActions={[
+              {
+                id: "mark-invited",
+                label: "Mark invited",
+                onClick: async (row) => {
+                  await new Promise((resolve) => {
+                    window.setTimeout(resolve, 100);
+                  });
+                  setTableRows((currentRows) =>
+                    currentRows.map((currentRow) => {
+                      if (currentRow.id !== row.id) {
+                        return currentRow;
+                      }
+                      return {
+                        ...currentRow,
+                        status: "invited",
+                      };
+                    }),
+                  );
+                },
+                isVisible: (row) => row.status !== "invited",
+              },
+            ]}
+            onEditRow={async (row) => {
+              await new Promise((resolve) => {
+                window.setTimeout(resolve, 100);
+              });
+              setTableRows((currentRows) =>
+                currentRows.map((currentRow) => {
+                  if (currentRow.id !== row.id) {
+                    return currentRow;
+                  }
+                  return {
+                    ...currentRow,
+                    status: currentRow.status === "paused" ? "active" : "paused",
+                  };
+                }),
+              );
+            }}
+            onDeleteRow={async (row) => {
+              await new Promise((resolve) => {
+                window.setTimeout(resolve, 100);
+              });
+              setTableRows((currentRows) =>
+                currentRows.filter((currentRow) => currentRow.id !== row.id),
+              );
+            }}
+            deleteConfirmMessage={(row) => `Delete ${row.name}? This cannot be undone.`}
+          />
+        </div>
+      </section>
     </main>
   );
 }

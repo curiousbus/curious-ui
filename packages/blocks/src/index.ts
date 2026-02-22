@@ -23,7 +23,37 @@ export {
   MailIcon,
   XIcon,
 } from "./auth-sign-in";
+export type { AuthSignUpErrors, AuthSignUpPayload } from "./auth-sign-up";
+export {
+  AuthSignUpCard,
+  AuthSignUpContent,
+  AuthSignUpFooter,
+  AuthSignUpForm,
+  AuthSignUpHeader,
+} from "./auth-sign-up";
 export { CtaBanner } from "./cta-banner";
+export type {
+  DataTableColumn,
+  DataTableFetcher,
+  DataTablePageResult,
+  DataTableQuery,
+  DataTableRowAction,
+  DataTableSort,
+  DataTableSortDirection,
+} from "./data-table";
+export {
+  ActionIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  DataTable,
+  EditIcon,
+  RefreshIcon,
+  SearchIcon,
+  SortAscIcon,
+  SortDescIcon,
+  SortIcon,
+  TrashIcon,
+} from "./data-table";
 export { HeroSplit } from "./hero-split";
 export type { SidebarNavGroup, SidebarNavItem } from "./sidebar-navigation";
 export {
